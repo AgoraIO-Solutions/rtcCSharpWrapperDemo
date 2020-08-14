@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\sourceCode\AgoraSDKObject.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sourceCode\CWrapperRtcEngineEventHandler.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sourceCode\IAgoraUnityAPI.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sourceCode\deviceManager\AgoraAudioPlaybackDeviceManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sourceCode\deviceManager\AgoraAudioRecordingDeviceManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sourceCode\deviceManager\AgoraVideoDeviceManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sourceCode\iAgoraUnityPlugin\IAgoraUnityEngine.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sourceCode\observer\MetaDataObserver.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sourceCode\observer\PacketObserver.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sourceCode\rawDataControl\AudioRawDataControl.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sourceCode\rawDataControl\VideoRawDataControl.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sourceCode\videoRender\UnityVideoFrameObserver.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sourceCode\videoRender\UserVideoFrameData.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sourceCode\videoRender\VideoRender.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sourceCode\videoRender\VideoRenderFactory.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sourceCode\ChannelEventHandler.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\sourceCode\AgoraSDKObject.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sourceCode\common_header.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sourceCode\CWrapperRtcEngineEventHandler.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sourceCode\IAgoraUnityAPI.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sourceCode\deviceManager\AgoraAudioPlaybackDeviceManager.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sourceCode\deviceManager\AgoraAudioRecordingDeviceManager.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sourceCode\deviceManager\AgoraVideoDeviceManager.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sourceCode\iAgoraUnityPlugin\IAgoraUnityEngine.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sourceCode\iAgoraUnityPlugin\IAgoraUnityInterface.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sourceCode\observer\MetaDataObserver.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sourceCode\observer\PacketObserver.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sourceCode\rawDataControl\AudioRawDataControl.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sourceCode\rawDataControl\VideoRawDataControl.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sourceCode\videoRender\RenderInterface.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sourceCode\videoRender\UnityVideoFrameObserver.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sourceCode\videoRender\UserVideoFrameData.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sourceCode\videoRender\VideoRender.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sourceCode\videoRender\VideoRenderFactory.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sourceCode\ChannelEventHandler.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
