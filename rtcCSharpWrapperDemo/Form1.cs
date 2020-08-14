@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -42,6 +42,7 @@ namespace rtcCSharpWrapperDemo
         static Form1 the_form;
         private Dictionary<uint, IntPtr> remote_video_map_;
         private bool channel_join_success_;
+        private bool is_sharing_;
 
         public static VideoFrameRawHandlerParam curUIUsingVideoFrameRawHandlerParam_;
         public static List<VideoFrameRawHandlerParam> usingVideoFrameRawHandlerParam_;
@@ -52,18 +53,15 @@ namespace rtcCSharpWrapperDemo
         {
             InitializeComponent();
             channel_join_success_ = false;
+            is_sharing_ = false;
             remote_video_map_ = new Dictionary<uint, IntPtr>();
             the_form = this;
             main_thread_sync_context_ = new WindowsFormsSynchronizationContext();
 
-            re_ = IRtcEngine.GetEngine("");
+            re_ = IRtcEngine.GetEngine([PLACE HOLDER]);
             re_.SetChannelProfile(CHANNEL_PROFILE.CHANNEL_PROFILE_COMMUNICATION);
             re_.SetClientRole(CLIENT_ROLE_TYPE.CLIENT_ROLE_BROADCASTER);
             re_.OnJoinChannelSuccess = JoinChannelSuccessHandler;
-            re_.OnRtcStats = stats =>
-            {
-
-            };
             re_.OnLeaveChannel = LeaveChannelHandler;
             re_.OnError = SDKErrorHandler;
             re_.OnFirstRemoteVideoDecoded = OnFirstRemoteVideoDecodedHandlerThread;
@@ -88,30 +86,23 @@ namespace rtcCSharpWrapperDemo
                 MessageBox.Show("Channel name can't be empty！");
                 return;
             }
-
+            if (checkBox1.Checked)
+            {
+                re_.SetChannelProfile(CHANNEL_PROFILE.CHANNEL_PROFILE_LIVE_BROADCASTING);
+                re_.SetClientRole(CLIENT_ROLE_TYPE.CLIENT_ROLE_BROADCASTER);
+            }
+            else
+            {
+                re_.SetChannelProfile(CHANNEL_PROFILE.CHANNEL_PROFILE_LIVE_BROADCASTING);
+                re_.SetClientRole(CLIENT_ROLE_TYPE.CLIENT_ROLE_AUDIENCE);
+            }
             re_.EnableVideo();
             int h_wnd = panel1.Handle.ToInt32();
             VideoCanvas localVideo = new VideoCanvas();
             localVideo.hwnd = h_wnd;
             localVideo.renderMode = RENDER_MODE_TYPE.RENDER_MODE_FIT;
+
             re_.SetupLocalVideo(localVideo, 0, new IntPtr());
-
-            if (checkBox2.Checked)
-            {
-                /*
-                 * raw data feature disabled for now by xianing, will enable it when sepcial sdk released for HP.
-                // local video frame raw data handler, the raw data format is YUV420
-                re_.onCaptureVideoFrame = OnCaptureVideoFrameRawHandler;
-                // For remote video frame raw data handler, use onRenderVideoFrameRaw.
-                re_.onRenderVideoFrame = OnRenderVideoFrameRawHandler;
-
-                // Init video frame buffer list for thread changing.
-                mutexVideoFrameRawHandlerParam_ = new Mutex();
-                usingVideoFrameRawHandlerParam_ = new List<VideoFrameRawHandlerParam>();
-                unUseVideoFrameRawHandlerParam_ = new List<VideoFrameRawHandlerParam>();
-                */
-            }
-
             re_.JoinChannel(channel_name, "", 0);
         }
 
@@ -226,7 +217,6 @@ namespace rtcCSharpWrapperDemo
             rvi.width = width;
             rvi.height = height;
             rvi.elapsed = elapsed;
-            //richTextBox1.Text += String.Format("get remote uid {0} video frame.", uid);
             main_thread_sync_context_.Post(
                 new SendOrPostCallback(OnFirstRemoteVideoDecodedHandlerUI), rvi);
         }
@@ -238,14 +228,43 @@ namespace rtcCSharpWrapperDemo
                 MessageBox.Show("Please join channel first！");
                 return;
             }
-
+            if(is_sharing_)
+            {
+                if (checkBox2.Checked)
+                {
+                    re_.stopScreenCaptureEx();
+                }
+                else
+                {
+                    re_.StopScreenCapture();
+                }
+                button3.Text = "Start Sharing";
+                this.is_sharing_ = false;
+                return;
+            }
             //IntPtr desktop_wnd = GetDesktopWindow();
             //int desktop_width = Screen.PrimaryScreen.Bounds.Width;
             //int desktop_height = Screen.PrimaryScreen.Bounds.Height;
-            int ret = re_.MuteRemoteAudioStream(10000, true);
-            richTextBox1.Text += String.Format("MuteRemoteAudioStream return: {0}\n", ret);
-            ret = re_.MuteRemoteVideoStream(10000, true);
-            richTextBox1.Text += String.Format("MuteRemoteVideoStream return: {0}\n", ret);
+            //int ret = re_.MuteRemoteAudioStream(10000, true);
+            //richTextBox1.Text += String.Format("MuteRemoteAudioStream return: {0}\n", ret);
+            //ret = re_.MuteRemoteVideoStream(10000, true);
+            //richTextBox1.Text += String.Format("MuteRemoteVideoStream return: {0}\n", ret);
+            if(checkBox2.Checked)
+            {
+                this.is_sharing_ = shareGame();
+            }
+            else
+            {
+                this.is_sharing_ = shareDesktop();
+            }
+            if (this.is_sharing_)
+            {
+                button3.Text = "Stop Sharing";
+            }
+        }
+
+        private bool shareDesktop()
+        {
             VideoDimensions videoDimensions = new VideoDimensions();
             videoDimensions.height = 720;
             videoDimensions.width = 1280;
@@ -259,9 +278,23 @@ namespace rtcCSharpWrapperDemo
             rectangle.width = 1280;
             rectangle.x = 0;
             rectangle.y = 0;
-            re_.StartScreenCaptureByScreenRect(rectangle, rectangle, screenCaptureParameters);
-            //re_.startWindowsShareByExePath(1280, 720, 30, 4000 * 1000, "D:\\WeGame\\英雄联盟\\TCLS\\Client.exe", 0);
+            int result = re_.StartScreenCaptureByScreenRect(rectangle, rectangle, screenCaptureParameters);
+            return result == 0;
         }
+
+        private bool shareGame()
+        {
+            if(textBox2.Text.Length == 0)
+            {
+                richTextBox1.Text += "Game Exe Path is empty!\n";
+                return false;
+            }
+            re_.enableHardWareEncoder();
+            re_.setLogFileFromPath([PLACE HOLDER]);
+            int result = re_.startWindowsShareByExePath(1280, 720, 30, 4000 * 1000, textBox2.Text, 0);
+            return result == 0;
+        }
+
         public void UserOfflineHandlerUI(uint uid)
         {
             richTextBox1.Text += String.Format("UserOfflineHandlerUI: {0}\n", uid);
