@@ -12,9 +12,13 @@ using System.Runtime.InteropServices;
 using agora_gaming_rtc;
 using System.IO;
 using System.Drawing.Imaging;
+using System.Diagnostics;
+using IPC;
+using Newtonsoft.Json;
 
 namespace rtcCSharpWrapperDemo
 {
+
     struct RemoteVoideoInfo
     {
         public uint uid;
@@ -26,6 +30,10 @@ namespace rtcCSharpWrapperDemo
 
     public partial class Form1 : Form
     {
+        private IPCChannel _ipc;
+        private static string MAIN_PROCESS = "main";
+        private static string SUB_PROCESS = "sub";
+
         public class VideoFrameRawHandlerParam
         {
             public int width;
@@ -43,6 +51,8 @@ namespace rtcCSharpWrapperDemo
         private Dictionary<uint, IntPtr> remote_video_map_;
         private bool channel_join_success_;
         private bool is_sharing_;
+        private static Process process;
+        private static string APP_ID = [PLACE HOLDER];
 
         public static VideoFrameRawHandlerParam curUIUsingVideoFrameRawHandlerParam_;
         public static List<VideoFrameRawHandlerParam> usingVideoFrameRawHandlerParam_;
@@ -52,14 +62,15 @@ namespace rtcCSharpWrapperDemo
         public Form1()
         {
             InitializeComponent();
+            _ipc = new IPCChannel(this, MAIN_PROCESS);
             channel_join_success_ = false;
             is_sharing_ = false;
             remote_video_map_ = new Dictionary<uint, IntPtr>();
             the_form = this;
             main_thread_sync_context_ = new WindowsFormsSynchronizationContext();
 
-            re_ = IRtcEngine.GetEngine([PLACE HOLDER]);
-            re_.SetChannelProfile(CHANNEL_PROFILE.CHANNEL_PROFILE_COMMUNICATION);
+            re_ = IRtcEngine.GetEngine(APP_ID);
+            re_.SetChannelProfile(CHANNEL_PROFILE.CHANNEL_PROFILE_LIVE_BROADCASTING);
             re_.SetClientRole(CLIENT_ROLE_TYPE.CLIENT_ROLE_BROADCASTER);
             re_.OnJoinChannelSuccess = JoinChannelSuccessHandler;
             re_.OnLeaveChannel = LeaveChannelHandler;
@@ -68,6 +79,21 @@ namespace rtcCSharpWrapperDemo
             re_.OnUserOffline = UserOfflineHandler;
             re_.OnUserJoined = UserJoinedHandler;
             re_.OnRemoteVideoStats = OnRemoteVideoStatsHandler;
+            CreateShareProcess();
+        }
+
+        private void CreateShareProcess()
+        {
+            if(process == null)
+            {
+                process = new Process();
+                process.StartInfo.FileName = "ScreenShareProcess.exe";
+                process.Start();
+            }
+            else if (process.HasExited)
+            {
+                process.Start();
+            }
         }
 
         ~Form1()
@@ -77,7 +103,7 @@ namespace rtcCSharpWrapperDemo
 
         [DllImport("user32.dll", EntryPoint = "GetDesktopWindow", CharSet = CharSet.Auto, SetLastError = true)]
         static extern IntPtr GetDesktopWindow();
-
+        
         private void Button1_Click(object sender, EventArgs e)
         {
             String channel_name = textBox1.Text;
@@ -185,6 +211,19 @@ namespace rtcCSharpWrapperDemo
 
         public static void JoinChannelSuccessHandler(string channelName, uint uid, int elapsed)
         {
+            BaseInfo info = new BaseInfo()
+            {
+                appId = "123",
+                channelName = channelName,
+                uid = uid + 1,
+            };
+            string jsonData = JsonConvert.SerializeObject(info);
+            PushMessage message = new PushMessage()
+            {
+                messageType = MessageType.SHARE_BASE_INFO,
+                messageBody = jsonData,
+            };
+            IPCChannel.SendMessage(ipcName: SUB_PROCESS, command: JsonConvert.SerializeObject(message));
             main_thread_sync_context_.Post(
                 new SendOrPostCallback(JoinChannelSuccessHandlerUI), the_form);
         }
@@ -236,26 +275,20 @@ namespace rtcCSharpWrapperDemo
                 }
                 else
                 {
-                    re_.StopScreenCapture();
+                    //re_.StopScreenCapture();
+                    stopShareDesktopEx();
                 }
                 button3.Text = "Start Sharing";
                 this.is_sharing_ = false;
                 return;
             }
-            //IntPtr desktop_wnd = GetDesktopWindow();
-            //int desktop_width = Screen.PrimaryScreen.Bounds.Width;
-            //int desktop_height = Screen.PrimaryScreen.Bounds.Height;
-            //int ret = re_.MuteRemoteAudioStream(10000, true);
-            //richTextBox1.Text += String.Format("MuteRemoteAudioStream return: {0}\n", ret);
-            //ret = re_.MuteRemoteVideoStream(10000, true);
-            //richTextBox1.Text += String.Format("MuteRemoteVideoStream return: {0}\n", ret);
             if(checkBox2.Checked)
             {
                 this.is_sharing_ = shareGame();
             }
             else
             {
-                this.is_sharing_ = shareDesktop();
+                this.is_sharing_ = shareDesktopEx();
             }
             if (this.is_sharing_)
             {
@@ -263,12 +296,54 @@ namespace rtcCSharpWrapperDemo
             }
         }
 
+        private bool shareDesktopEx()
+        {
+            ScreenInfo screenInfo = new ScreenInfo()
+            {
+                windowId = (int)GetDesktopWindow(),
+                regionRectangle = new IPC.Rectangle()
+                {
+                    x=0,
+                    y=0,
+                    width=1280,
+                    height=720,
+                },
+                screenCaptureParameters = new IPC.ScreenCaptureParameters()
+                {
+                    frameRate = 15,
+                    bitrate = 4000,
+                    captureMouseCursor = false,
+                    dimensions = new IPC.VideoDimensions()
+                    {
+                        width = 1280,
+                        height = 720,
+                    }
+                }
+            };
+            PushMessage message = new PushMessage()
+            {
+                messageType = IPC.MessageType.START_SHARE_BY_WINDOW,
+                messageBody = JsonConvert.SerializeObject(screenInfo),
+            };
+            IPCChannel.SendMessage(ipcName: SUB_PROCESS, command: JsonConvert.SerializeObject(message));
+            return true;
+        }
+
+        private void stopShareDesktopEx()
+        {
+            PushMessage message = new PushMessage()
+            {
+                messageType = IPC.MessageType.STOP_SHARE
+            };
+            IPCChannel.SendMessage(ipcName: SUB_PROCESS, command: JsonConvert.SerializeObject(message));
+        }
+
         private bool shareDesktop()
         {
-            VideoDimensions videoDimensions = new VideoDimensions();
+            agora_gaming_rtc.VideoDimensions videoDimensions = new agora_gaming_rtc.VideoDimensions();
             videoDimensions.height = 720;
             videoDimensions.width = 1280;
-            ScreenCaptureParameters screenCaptureParameters = new ScreenCaptureParameters();
+            agora_gaming_rtc.ScreenCaptureParameters screenCaptureParameters = new agora_gaming_rtc.ScreenCaptureParameters();
             screenCaptureParameters.bitrate = 4000 * 1000;
             screenCaptureParameters.frameRate = 30;
             screenCaptureParameters.captureMouseCursor = true;
@@ -290,8 +365,8 @@ namespace rtcCSharpWrapperDemo
                 return false;
             }
             re_.enableHardWareEncoder();
-            re_.setLogFileFromPath([PLACE HOLDER]);
-            int result = re_.startWindowsShareByExePath(1280, 720, 30, 4000 * 1000, textBox2.Text, 0);
+            re_.setLogFileFromPath("gameRecord.log");
+            int result = re_.startWindowsShareByExePath(1280, 720, 30, 1500 * 1000, textBox2.Text, 0);
             return result == 0;
         }
 
@@ -565,6 +640,16 @@ namespace rtcCSharpWrapperDemo
 
         private void button4_Click(object sender, EventArgs e)
         {
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            PushMessage message = new PushMessage()
+            {
+                messageType = MessageType.CLOSE_APP,
+                messageBody = null,
+            };
+            IPCChannel.SendMessage(ipcName: SUB_PROCESS, command: JsonConvert.SerializeObject(message));
         }
     }
 }

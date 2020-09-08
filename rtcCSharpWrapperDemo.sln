@@ -6,6 +6,17 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "agoraSdkCWrapper", "agoraSdkCWrapper\agoraSdkCWrapper.vcxproj", "{B330C8EC-0B06-47FB-842C-0389EAD95385}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rtcCSharpWrapperDemo", "rtcCSharpWrapperDemo\rtcCSharpWrapperDemo.csproj", "{F9DA47E5-96D7-47C3-A27C-F58921268885}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C336931A-B9B3-4347-A90F-5E97031DD85F} = {C336931A-B9B3-4347-A90F-5E97031DD85F}
+		{B330C8EC-0B06-47FB-842C-0389EAD95385} = {B330C8EC-0B06-47FB-842C-0389EAD95385}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IPC", "IPC\IPC.csproj", "{C336931A-B9B3-4347-A90F-5E97031DD85F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenShareProcess", "ScreenShareProcess\ScreenShareProcess.csproj", "{4CF5FD31-92DD-4D8E-9E93-4790620F2A6D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C336931A-B9B3-4347-A90F-5E97031DD85F} = {C336931A-B9B3-4347-A90F-5E97031DD85F}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +50,30 @@ Global
 		{F9DA47E5-96D7-47C3-A27C-F58921268885}.Release|x64.Build.0 = Release|x64
 		{F9DA47E5-96D7-47C3-A27C-F58921268885}.Release|x86.ActiveCfg = Release|Any CPU
 		{F9DA47E5-96D7-47C3-A27C-F58921268885}.Release|x86.Build.0 = Release|Any CPU
+		{C336931A-B9B3-4347-A90F-5E97031DD85F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C336931A-B9B3-4347-A90F-5E97031DD85F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C336931A-B9B3-4347-A90F-5E97031DD85F}.Debug|x64.ActiveCfg = Debug|x64
+		{C336931A-B9B3-4347-A90F-5E97031DD85F}.Debug|x64.Build.0 = Debug|x64
+		{C336931A-B9B3-4347-A90F-5E97031DD85F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C336931A-B9B3-4347-A90F-5E97031DD85F}.Debug|x86.Build.0 = Debug|Any CPU
+		{C336931A-B9B3-4347-A90F-5E97031DD85F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C336931A-B9B3-4347-A90F-5E97031DD85F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C336931A-B9B3-4347-A90F-5E97031DD85F}.Release|x64.ActiveCfg = Release|Any CPU
+		{C336931A-B9B3-4347-A90F-5E97031DD85F}.Release|x64.Build.0 = Release|Any CPU
+		{C336931A-B9B3-4347-A90F-5E97031DD85F}.Release|x86.ActiveCfg = Release|Any CPU
+		{C336931A-B9B3-4347-A90F-5E97031DD85F}.Release|x86.Build.0 = Release|Any CPU
+		{4CF5FD31-92DD-4D8E-9E93-4790620F2A6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CF5FD31-92DD-4D8E-9E93-4790620F2A6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CF5FD31-92DD-4D8E-9E93-4790620F2A6D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4CF5FD31-92DD-4D8E-9E93-4790620F2A6D}.Debug|x64.Build.0 = Debug|Any CPU
+		{4CF5FD31-92DD-4D8E-9E93-4790620F2A6D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4CF5FD31-92DD-4D8E-9E93-4790620F2A6D}.Debug|x86.Build.0 = Debug|Any CPU
+		{4CF5FD31-92DD-4D8E-9E93-4790620F2A6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CF5FD31-92DD-4D8E-9E93-4790620F2A6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CF5FD31-92DD-4D8E-9E93-4790620F2A6D}.Release|x64.ActiveCfg = Release|Any CPU
+		{4CF5FD31-92DD-4D8E-9E93-4790620F2A6D}.Release|x64.Build.0 = Release|Any CPU
+		{4CF5FD31-92DD-4D8E-9E93-4790620F2A6D}.Release|x86.ActiveCfg = Release|Any CPU
+		{4CF5FD31-92DD-4D8E-9E93-4790620F2A6D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

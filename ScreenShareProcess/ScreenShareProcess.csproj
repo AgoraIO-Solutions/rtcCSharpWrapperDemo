@@ -4,21 +4,21 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F9DA47E5-96D7-47C3-A27C-F58921268885}</ProjectGuid>
+    <ProjectGuid>{4CF5FD31-92DD-4D8E-9E93-4790620F2A6D}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>rtcCSharpWrapperDemo</RootNamespace>
-    <AssemblyName>rtcCSharpWrapperDemo</AssemblyName>
+    <RootNamespace>ScreenShareProcess</RootNamespace>
+    <AssemblyName>ScreenShareProcess</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\rtcCSharpWrapperDemo\bin\x64\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -31,26 +31,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -69,32 +49,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AgoraCallback.cs" />
-    <Compile Include="AgoraChannel.cs" />
-    <Compile Include="AgoraChannelCallback.cs" />
-    <Compile Include="AgoraEnums.cs" />
-    <Compile Include="AgoraGamingRtcEngine.cs" />
-    <Compile Include="AudioEffectManager.cs" />
-    <Compile Include="deviceManager\AudioPlaybackDeviceManager.cs" />
-    <Compile Include="deviceManager\AudioRecordingDeviceManager.cs" />
-    <Compile Include="deviceManager\VideoDeviceManager.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="native\IAgoraGamingRtcEngineNative.cs" />
-    <Compile Include="observer\MetaDataObserver.cs" />
-    <Compile Include="observer\PacketObserver.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="rawData\AudioRawDataManager.cs" />
-    <Compile Include="rawData\VideoRawDataManager.cs" />
-    <Compile Include="tools\AgoraCallbackObject.cs" />
-    <Compile Include="tools\AgoraCallbackQueue.cs" />
-    <Compile Include="videoRender\VideoRender.cs" />
-    <Compile Include="VideoSurface.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -107,8 +69,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="mainpage.md" />
-    <None Include="native\.IAgoraGamingRtcEngineNative.cs.swp" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -127,6 +87,10 @@
     <ProjectReference Include="..\IPC\IPC.csproj">
       <Project>{c336931a-b9b3-4347-a90f-5e97031dd85f}</Project>
       <Name>IPC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\rtcCSharpWrapperDemo\rtcCSharpWrapperDemo.csproj">
+      <Project>{f9da47e5-96d7-47c3-a27c-f58921268885}</Project>
+      <Name>rtcCSharpWrapperDemo</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
