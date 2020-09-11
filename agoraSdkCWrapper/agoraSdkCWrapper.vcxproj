@@ -167,6 +167,10 @@
     <ClInclude Include="..\sourceCode\videoRender\UserVideoFrameData.h" />
     <ClInclude Include="..\sourceCode\videoRender\VideoRender.h" />
     <ClInclude Include="..\sourceCode\videoRender\VideoRenderFactory.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="agoraSdkCWrapper.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
