@@ -21,7 +21,7 @@ namespace ScreenShareProcess
 
         public string appId = [PLACE HOLDER];
         public string channelName;
-        private uint uid;
+        private uint uid = 10000;
         private IRtcEngine re_;
         private bool isShareByRect;
         private ScreenInfo screenInfo;
@@ -71,7 +71,7 @@ namespace ScreenShareProcess
         {
             isShareByRect = false;
             screenInfo = JsonConvert.DeserializeObject<ScreenInfo>(messageBody);
-            int ret = re_.JoinChannel(channelName, "", 0);
+            int ret = re_.JoinChannel(channelName, "", uid);
         }
 
         private void handleScreenShare()
@@ -90,7 +90,7 @@ namespace ScreenShareProcess
         {
             isShareByRect = true;
             screenInfo = JsonConvert.DeserializeObject<ScreenInfo>(messageBody);
-            int ret = re_.JoinChannel(channelName, "", 0);
+            int ret = re_.JoinChannel(channelName, "", uid);
         }
 
         private agora_gaming_rtc.Rectangle convert(IPC.Rectangle orig)
@@ -142,7 +142,6 @@ namespace ScreenShareProcess
         {
             BaseInfo info = JsonConvert.DeserializeObject<BaseInfo>(messageBody);
             channelName = info.channelName;
-            uid = info.uid;
         }
 
         protected override void SetVisibleCore(bool value)

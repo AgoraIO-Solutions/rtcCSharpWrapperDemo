@@ -123,6 +123,13 @@ namespace rtcCSharpWrapperDemo
                 re_.SetClientRole(CLIENT_ROLE_TYPE.CLIENT_ROLE_AUDIENCE);
             }
             re_.EnableVideo();
+            agora_gaming_rtc.VideoDimensions videoDimensions = new agora_gaming_rtc.VideoDimensions();
+            videoDimensions.width = 240;
+            videoDimensions.height = 132;
+            VideoEncoderConfiguration videoEncoderConfiguration = new VideoEncoderConfiguration();
+            videoEncoderConfiguration.dimensions = videoDimensions;
+            videoEncoderConfiguration.frameRate = FRAME_RATE.FRAME_RATE_FPS_30;
+            re_.SetVideoEncoderConfiguration(videoEncoderConfiguration);
             int h_wnd = panel1.Handle.ToInt32();
             VideoCanvas localVideo = new VideoCanvas();
             localVideo.hwnd = h_wnd;
@@ -134,31 +141,48 @@ namespace rtcCSharpWrapperDemo
 
         public void OnRemoteVideoStatsHandler(RemoteVideoStats stats)
         {
-            main_thread_sync_context_.Post(
-                new SendOrPostCallback(OnRemoteVideoStatsHandlerUI), stats);
+            if(stats.uid == 10000)
+                main_thread_sync_context_.Post(
+                    new SendOrPostCallback(OnRemoteVideoStatsHandlerUI), stats);
         }
 
         public void OnRemoteVideoStatsHandlerUI(object state)
         {
-            label3.Text = String.Format("receivedFrameRate: {0}\n", ((RemoteVideoStats)state).receivedBitrate);
+            RemoteVideoStats stat = (RemoteVideoStats) state;
+            label3.Text = String.Format("received sharing on bitrate: {0} {1}x{2} fps {3}\n", stat.receivedBitrate, stat.width, stat.height, stat.decoderOutputFrameRate);
         }
 
         public void OnFirstRemoteVideoDecodedHandler(uint uid, int width, int height, int elapsed)
         {
             // On first callback of video decode, we should set the remote hwnd for display according to uid.
             richTextBox1.Text += String.Format("OnFirstRemoteVideoDecodedHandler uid: {0}\n", uid);
-            if (!remote_video_map_.ContainsKey(uid))
+            if(uid == 10000)
             {
-                int wnd1 = 1, wnd2 = 1;
+                VideoCanvas remoteVideo = new VideoCanvas();
+                remoteVideo.hwnd = pictureBox1.Handle.ToInt32();
+                remoteVideo.renderMode = RENDER_MODE_TYPE.RENDER_MODE_FIT;
+                re_.SetupRemoteVideo(remoteVideo, uid, new IntPtr());
+            }
+            else if (!remote_video_map_.ContainsKey(uid))
+            {
+                int wnd1 = 1, wnd2 = 1, wnd3 = 1, wnd4 = 1;
                 foreach (var pair in remote_video_map_)
                 {
-                    if (wnd1 == 1 && panel2.Handle == pair.Value)
+                    if (wnd1 == 1 && panel2.Handle != pair.Value)
                     {
                         wnd1 = 0;
                     }
-                    if (wnd2 == 1 && panel3.Handle == pair.Value)
+                    if (wnd2 == 1 && panel3.Handle != pair.Value)
                     {
                         wnd2 = 0;
+                    }
+                    if (wnd3 == 1 && panel4.Handle != pair.Value)
+                    {
+                        wnd3 = 0;
+                    }
+                    if (wnd4 == 1 && panel5.Handle != pair.Value)
+                    {
+                        wnd4 = 0;
                     }
                 }
                 if (wnd1 == 1)
@@ -175,6 +199,15 @@ namespace rtcCSharpWrapperDemo
                 {
                     int h_wnd = panel3.Handle.ToInt32();
                     remote_video_map_.Add(uid, panel3.Handle);
+                    VideoCanvas remoteVideo = new VideoCanvas();
+                    remoteVideo.hwnd = h_wnd;
+                    remoteVideo.renderMode = RENDER_MODE_TYPE.RENDER_MODE_FIT;
+                    re_.SetupRemoteVideo(remoteVideo, uid, new IntPtr());
+                }
+                else if (wnd4 == 1)
+                {
+                    int h_wnd = panel5.Handle.ToInt32();
+                    remote_video_map_.Add(uid, panel5.Handle);
                     VideoCanvas remoteVideo = new VideoCanvas();
                     remoteVideo.hwnd = h_wnd;
                     remoteVideo.renderMode = RENDER_MODE_TYPE.RENDER_MODE_FIT;
@@ -275,7 +308,6 @@ namespace rtcCSharpWrapperDemo
                 }
                 else
                 {
-                    //re_.StopScreenCapture();
                     stopShareDesktopEx();
                 }
                 button3.Text = "Start Sharing";
@@ -310,8 +342,7 @@ namespace rtcCSharpWrapperDemo
                 },
                 screenCaptureParameters = new IPC.ScreenCaptureParameters()
                 {
-                    frameRate = 15,
-                    bitrate = 4000,
+                    frameRate = 30,
                     captureMouseCursor = false,
                     dimensions = new IPC.VideoDimensions()
                     {
@@ -338,25 +369,6 @@ namespace rtcCSharpWrapperDemo
             IPCChannel.SendMessage(ipcName: SUB_PROCESS, command: JsonConvert.SerializeObject(message));
         }
 
-        private bool shareDesktop()
-        {
-            agora_gaming_rtc.VideoDimensions videoDimensions = new agora_gaming_rtc.VideoDimensions();
-            videoDimensions.height = 720;
-            videoDimensions.width = 1280;
-            agora_gaming_rtc.ScreenCaptureParameters screenCaptureParameters = new agora_gaming_rtc.ScreenCaptureParameters();
-            screenCaptureParameters.bitrate = 4000 * 1000;
-            screenCaptureParameters.frameRate = 30;
-            screenCaptureParameters.captureMouseCursor = true;
-            screenCaptureParameters.dimensions = videoDimensions;
-            agora_gaming_rtc.Rectangle rectangle = new agora_gaming_rtc.Rectangle();
-            rectangle.height = 720;
-            rectangle.width = 1280;
-            rectangle.x = 0;
-            rectangle.y = 0;
-            int result = re_.StartScreenCaptureByScreenRect(rectangle, rectangle, screenCaptureParameters);
-            return result == 0;
-        }
-
         private bool shareGame()
         {
             if(textBox2.Text.Length == 0)
@@ -366,7 +378,7 @@ namespace rtcCSharpWrapperDemo
             }
             re_.enableHardWareEncoder();
             re_.setLogFileFromPath("gameRecord.log");
-            int result = re_.startWindowsShareByExePath(1280, 720, 30, 1500 * 1000, textBox2.Text, 0);
+            int result = re_.startWindowsShareByExePath(1280, 720, 30, 1500 * 1000, textBox2.Text, 10000);
             return result == 0;
         }
 
@@ -399,225 +411,6 @@ namespace rtcCSharpWrapperDemo
                }), uid);
         }
 
-
-        public void OnCaptureVideoFrameRawHandlerUI()
-        {
-            if (IsDisposed)
-                return;
-
-            // Pick a item in list to show.
-            VideoFrameRawHandlerParam sel_vfrp;
-
-            mutexVideoFrameRawHandlerParam_.WaitOne();
-            if (usingVideoFrameRawHandlerParam_.Count == 0)
-            {
-                mutexVideoFrameRawHandlerParam_.ReleaseMutex();
-                return; // full
-            }
-
-            sel_vfrp = usingVideoFrameRawHandlerParam_[0];
-            usingVideoFrameRawHandlerParam_.RemoveAt(0);
-            mutexVideoFrameRawHandlerParam_.ReleaseMutex();
-
-            // Set bitmap to ui contorl
-            if (sel_vfrp.bm != null)
-                this.pictureBox1.Image = sel_vfrp.bm;
-
-            mutexVideoFrameRawHandlerParam_.WaitOne();
-            // add last ui show item to unUsed list
-            if (curUIUsingVideoFrameRawHandlerParam_ != null)
-                unUseVideoFrameRawHandlerParam_.Add(curUIUsingVideoFrameRawHandlerParam_);
-            mutexVideoFrameRawHandlerParam_.ReleaseMutex();
-            curUIUsingVideoFrameRawHandlerParam_ = sel_vfrp;
-        }
-        
-
-        public static void OnCaptureVideoFrameRawHandler(int width, int height, byte[] yBuffer, int rotation)
-        {
-            // we pick a un used VideoFrameRawHandlerParam item, convert yuv data to rgb frame, and init it's bitmap obj.
-            VideoFrameRawHandlerParam sel_vfrp;
-
-            mutexVideoFrameRawHandlerParam_.WaitOne();
-            if (unUseVideoFrameRawHandlerParam_.Count == 0)
-            {
-                if (usingVideoFrameRawHandlerParam_.Count > 20)
-                {
-                    mutexVideoFrameRawHandlerParam_.ReleaseMutex();
-                    return; // full
-                }
-                sel_vfrp = new VideoFrameRawHandlerParam();
-                sel_vfrp.width = 0;
-                sel_vfrp.userId = 0;
-            } else
-            {
-                sel_vfrp = unUseVideoFrameRawHandlerParam_[0];
-                unUseVideoFrameRawHandlerParam_.RemoveAt(0);
-            }
-            mutexVideoFrameRawHandlerParam_.ReleaseMutex();
-
-            if (sel_vfrp.width != width 
-                || sel_vfrp.height != height)
-            {
-                sel_vfrp.width = width;
-                sel_vfrp.height = height;
-                sel_vfrp.yBuffer = new byte[yBuffer.Length];
-                Array.Copy(yBuffer, sel_vfrp.yBuffer, yBuffer.Length);
-                sel_vfrp.rotation = rotation;
-                sel_vfrp.rgbFrame = new byte[width * height * 4];
-                sel_vfrp.bm = new Bitmap(width, height);
-            } else
-            {
-                Array.Copy(yBuffer, sel_vfrp.yBuffer, yBuffer.Length);
-                sel_vfrp.rotation = rotation;
-            }
-
-            ConvertYUV2RGB(sel_vfrp.bm, sel_vfrp.yBuffer,
-            sel_vfrp.rgbFrame, width, height);
-
-            mutexVideoFrameRawHandlerParam_.WaitOne();
-            usingVideoFrameRawHandlerParam_.Add(sel_vfrp);
-            mutexVideoFrameRawHandlerParam_.ReleaseMutex();
-
-            // Send to main thread for display
-            main_thread_sync_context_.Post(
-                new SendOrPostCallback((object state) =>
-                {
-                    the_form.OnCaptureVideoFrameRawHandlerUI();
-                }), null);
-        }
-
-        public void OnRenderVideoFrameRawHandlerUI()
-        {
-            if (IsDisposed)
-                return;
-
-            // Pick a item in list to show.
-            VideoFrameRawHandlerParam sel_vfrp;
-
-            mutexVideoFrameRawHandlerParam_.WaitOne();
-            if (usingVideoFrameRawHandlerParam_.Count == 0)
-            {
-                mutexVideoFrameRawHandlerParam_.ReleaseMutex();
-                return; // full
-            }
-
-            sel_vfrp = usingVideoFrameRawHandlerParam_[0];
-            usingVideoFrameRawHandlerParam_.RemoveAt(0);
-            mutexVideoFrameRawHandlerParam_.ReleaseMutex();
-
-            // Set bitmap to ui contorl
-            if (sel_vfrp.bm != null)
-            {// Find Which picbox to show
-
-                IntPtr targPicbox = new IntPtr();
-                foreach (var pair in remote_video_map_)
-                {
-                    if (sel_vfrp.userId == pair.Key)
-                        targPicbox = pair.Value;
-                }
-                if (panel3.Handle == targPicbox)
-                {
-                    pictureBox3.Image = sel_vfrp.bm;
-                }
-                else
-                {
-                    pictureBox2.Image = sel_vfrp.bm;
-                }
-            }
-
-            mutexVideoFrameRawHandlerParam_.WaitOne();
-            // add last ui show item to unUsed list
-            if (curUIUsingVideoFrameRawHandlerParam_ != null)
-                unUseVideoFrameRawHandlerParam_.Add(curUIUsingVideoFrameRawHandlerParam_);
-            mutexVideoFrameRawHandlerParam_.ReleaseMutex();
-            curUIUsingVideoFrameRawHandlerParam_ = sel_vfrp;
-        }
-
-        public static void OnRenderVideoFrameRawHandler(uint userId, int width, int height, byte[] yBuffer, int rotation)
-        {
-            // we pick a un used VideoFrameRawHandlerParam item, convert yuv data to rgb frame, and init it's bitmap obj.
-            VideoFrameRawHandlerParam sel_vfrp;
-
-            mutexVideoFrameRawHandlerParam_.WaitOne();
-            if (unUseVideoFrameRawHandlerParam_.Count == 0)
-            {
-                if (usingVideoFrameRawHandlerParam_.Count > 20)
-                {
-                    mutexVideoFrameRawHandlerParam_.ReleaseMutex();
-                    return; // full
-                }
-                sel_vfrp = new VideoFrameRawHandlerParam();
-                sel_vfrp.width = 0;
-                sel_vfrp.userId = 0;
-            }
-            else
-            {
-                sel_vfrp = unUseVideoFrameRawHandlerParam_[0];
-                unUseVideoFrameRawHandlerParam_.RemoveAt(0);
-            }
-            mutexVideoFrameRawHandlerParam_.ReleaseMutex();
-
-            if (sel_vfrp.width != width
-                || sel_vfrp.height != height)
-            {
-                sel_vfrp.width = width;
-                sel_vfrp.height = height;
-                sel_vfrp.yBuffer = new byte[yBuffer.Length];
-                Array.Copy(yBuffer, sel_vfrp.yBuffer, yBuffer.Length);
-                sel_vfrp.rotation = rotation;
-                sel_vfrp.rgbFrame = new byte[width * height * 4];
-                sel_vfrp.bm = new Bitmap(width, height);
-            }
-            else
-            {
-                Array.Copy(yBuffer, sel_vfrp.yBuffer, yBuffer.Length);
-                sel_vfrp.rotation = rotation;
-            }
-
-            sel_vfrp.userId = userId;
-            ConvertYUV2RGB(sel_vfrp.bm, sel_vfrp.yBuffer,
-            sel_vfrp.rgbFrame, width, height);
-
-            mutexVideoFrameRawHandlerParam_.WaitOne();
-            usingVideoFrameRawHandlerParam_.Add(sel_vfrp);
-            mutexVideoFrameRawHandlerParam_.ReleaseMutex();
-
-            // Send to main thread for display
-            main_thread_sync_context_.Post(
-                new SendOrPostCallback((object state) =>
-                {
-                    the_form.OnRenderVideoFrameRawHandlerUI();
-                }), null);
-        }
-
-        static double[,] YUV2RGB_CONVERT_MATRIX = new double[3, 3] { { 1, 0, 1.4022 }, { 1, -0.3456, -0.7145 }, { 1, 1.771, 0 } };
-        static void ConvertYUV2RGB(Bitmap bm, byte[] yuvFrame, byte[] rgbFrame, int width, int height)
-        {
-            int uIndex = width * height;
-            int vIndex = uIndex + ((width * height) >> 2);
-            int gIndex = width * height;
-            int bIndex = gIndex * 2;
-
-            int temp = 0;
-            for (int y = 0; y < height; y++)
-            {
-                for (int x = 0; x < width; x++)
-                {
-                    // R分量
-                    temp = (int)(yuvFrame[y * width + x] + (yuvFrame[vIndex + (y / 2) * (width / 2) + x / 2] - 128) * YUV2RGB_CONVERT_MATRIX[0, 2]);
-                    rgbFrame[y * width + x] = (byte)(temp < 0 ? 0 : (temp > 255 ? 255 : temp));
-                    // G分量
-                    temp = (int)(yuvFrame[y * width + x] + (yuvFrame[uIndex + (y / 2) * (width / 2) + x / 2] - 128) * YUV2RGB_CONVERT_MATRIX[1, 1] + (yuvFrame[vIndex + (y / 2) * (width / 2) + x / 2] - 128) * YUV2RGB_CONVERT_MATRIX[1, 2]);
-                    rgbFrame[gIndex + y * width + x] = (byte)(temp < 0 ? 0 : (temp > 255 ? 255 : temp));
-                    // B分量
-                    temp = (int)(yuvFrame[y * width + x] + (yuvFrame[uIndex + (y / 2) * (width / 2) + x / 2] - 128) * YUV2RGB_CONVERT_MATRIX[2, 1]);
-                    rgbFrame[bIndex + y * width + x] = (byte)(temp < 0 ? 0 : (temp > 255 ? 255 : temp));
-                    Color c = Color.FromArgb(rgbFrame[y * width + x], rgbFrame[gIndex + y * width + x], rgbFrame[bIndex + y * width + x]);
-                    bm.SetPixel(x, y, c);
-                }
-            }
-        }
-
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBox1.Checked)
@@ -635,11 +428,7 @@ namespace rtcCSharpWrapperDemo
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             re_.StopScreenCapture();
-            re_.LeaveChannel(); int a = 0;
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
+            re_.LeaveChannel();
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
