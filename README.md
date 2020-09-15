@@ -7,6 +7,7 @@ it includes below projects:
   An C++ CLI wrapper for agora windows SDK which expose the interface for C# layer
 ## rtcCSharpWrapperDemo
   An sample Windows Application which includes a full wrapper class for agoraRtcEngine on C#. And a simple implementation for sharing a windows desktop application to remote user.
+  [C# version Agora API Reference](https://github.com/AgoraIO-Solutions/rtcCSharpWrapperDemo/blob/master/rtcCSharpWrapperDemo/mainpage.md)
 ## IPC
   Communication Interface for C# dual-process
 ## ScreenShareProcess
