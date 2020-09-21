@@ -1329,15 +1329,26 @@ namespace agora {
                 return CAgoraSDKObject::getCAgoraSDKInstance()->startScreenCaptureByWindowId(windowId, regionRectX, regionRectY, regionRectWidth, regionRectHeight, screenCaptureVideoDimenWidth, screenCaptureVideoDimenHeight, screenCaptureFrameRate, screenCaptureBitrate, screenCaptureCaptureMouseCursor);
             }
 
-			int startWindowsShareByExePath(int width, int height, int captureFreq, int bitrate, const char *exe_path, unsigned int uid)
+			void startWindowsShareByExePath(const char *exe_path)
 			{
-				return CAgoraSDKObject::getCAgoraSDKInstance()->startWindowsShareByExePath(width, height, captureFreq, bitrate, exe_path, uid);
+				 CAgoraSDKObject::getCAgoraSDKInstance()->init_process_env(exe_path);
 			}
 
-			int startProcessShare(int width, int height, int captureFreq, int bitrate)
+			int startProcessSharedFromVideo(int width, int height, int captureFreq, int bitrate)
 			{
-				return CAgoraSDKObject::getCAgoraSDKInstance()->startProcessShare(width, height, captureFreq, bitrate);
+				return CAgoraSDKObject::getCAgoraSDKInstance()->startProcessSharedFromVideo(width, height, captureFreq, bitrate);
 			}
+
+			int startProcessSharedFromAudio()
+			{
+				return CAgoraSDKObject::getCAgoraSDKInstance()->startProcessSharedFromAudio();
+			}
+
+			int stopProcessSharedFromAudio()
+			{
+				return CAgoraSDKObject::getCAgoraSDKInstance()->stopProcessSharedFromAudio();
+			}
+
 
 			int stopScreenCaptureEx()
 			{

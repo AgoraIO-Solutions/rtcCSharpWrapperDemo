@@ -2885,14 +2885,24 @@ namespace agora_gaming_rtc
             return IRtcEngineNative.startScreenCaptureByWindowId(windowId, regionRect.x, regionRect.y, regionRect.width, regionRect.height, screenCaptureParameters.dimensions.width, screenCaptureParameters.dimensions.height, screenCaptureParameters.frameRate, screenCaptureParameters.bitrate, screenCaptureParameters.captureMouseCursor);
         }
 
-        public int startWindowsShareByExePath(int width, int height, int captureFreq, int bitrate, string exe_path, uint uid)
+        public void startWindowsShareByExePath(string exe_path)
         {
-            return IRtcEngineNative.startWindowsShareByExePath(width,height,captureFreq,bitrate,exe_path,uid);
+            IRtcEngineNative.startWindowsShareByExePath(exe_path);
         }
 
-        public int startProcessShare(int width, int height, int captureFreq, int bitrate)
+        public int startProcessSharedFromVideo(int width, int height, int captureFreq, int bitrate)
         {
-            return IRtcEngineNative.startProcessShare(width, height, captureFreq, bitrate);
+            return IRtcEngineNative.startProcessSharedFromVideo(width, height, captureFreq, bitrate);
+        }
+
+        public int startProcessSharedFromAudio()
+        {
+            return IRtcEngineNative.startProcessSharedFromAudio();
+        }
+
+        public int stopProcessSharedFromAudio()
+        {
+            return IRtcEngineNative.stopProcessSharedFromAudio();
         }
 
         public void setLogFileFromPath(string filePath)

@@ -1,9 +1,13 @@
 #include "AgoraSDKObject.h"
+#include <TlHelp32.h>
+#include <stdio.h>
+#include <atlstr.h>
 
 namespace agora {
     namespace unity {              
         CAgoraSDKObject *CAgoraSDKObject::cAgoraSDKObjectInstance = NULL;
-        CAgoraSDKObject::~CAgoraSDKObject()
+
+		CAgoraSDKObject::~CAgoraSDKObject()
         {    
             irtcEngine = NULL;
             if (cWrapperRtcEngineEventHandler)
@@ -2177,11 +2181,144 @@ namespace agora {
 			return NOT_INIT_ENGINE;
 		}
 
+		void CAgoraSDKObject::init_process_env(const char* GameName)
+		{
+			//get d3d function offset
+			KillProcess(getGameProcessID("get-d3dfun-offset.exe"));
+			start_hook(TEXT("get-d3dfun-offset.exe"), "", 1000);
 
-		int CAgoraSDKObject::startProcessShare(int width, int height, int captureFreq, int bitrate) {
+			//hook api
+			KillProcess(getGameProcessID("stub-process.exe"));
+			start_hook(TEXT("stub-process.exe"), GameName, 100);
+
+			//start game process
+			start_game_process(GameName);
+		}
+
+		void CAgoraSDKObject::start_game_process(const char* GameName)
+		{
+			STARTUPINFO si;
+			ZeroMemory(&si, sizeof(STARTUPINFO));
+			si.cb = sizeof(STARTUPINFO);
+
+			PROCESS_INFORMATION pi;
+			ZeroMemory(&pi, sizeof(PROCESS_INFORMATION));
+
+			if (!CreateProcess(GameName, NULL, NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi))
+				return;
+
+			if (pi.hProcess)
+				CloseHandle(pi.hProcess);
+
+			if (pi.hThread)
+				CloseHandle(pi.hThread);
+		}
+
+		std::string CAgoraSDKObject::getAbsoluteDir() {
+
+			TCHAR path[MAX_PATH] = { 0 };
+			GetModuleFileName(nullptr, path, MAX_PATH);
+
+			std::string filePath = CStringA(path).GetBuffer();
+			return filePath.substr(0, filePath.rfind("\\") + 1);
+		}
+
+		void CAgoraSDKObject::start_hook(const std::string &processName, const std::string &cmdLine, int timeout)
+		{
+			STARTUPINFO si;
+			ZeroMemory(&si, sizeof(STARTUPINFO));
+			si.cb = sizeof(STARTUPINFO);
+			si.dwFlags = STARTF_USESHOWWINDOW;
+			si.wShowWindow = SW_HIDE;
+			PROCESS_INFORMATION pi;
+			ZeroMemory(&pi, sizeof(PROCESS_INFORMATION));
+
+			//CStringA CmdLine;
+			std::string fullpath = getAbsoluteDir() + processName;
+			//CmdLine.Format(("%s \"%s\""), s2cs(fullpath), s2cs(cmdLine));
+			char chCmd[1024] = { 0 };
+			sprintf(chCmd, "%s \"%s\"", fullpath.c_str(), cmdLine.c_str());
+			if (!CreateProcessA(NULL, chCmd, NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi))
+				return;
+
+			WaitForSingleObject(pi.hThread, timeout);
+
+			if (pi.hProcess)
+				CloseHandle(pi.hProcess);
+
+			if (pi.hThread)
+				CloseHandle(pi.hThread);
+
+			return;
+		}
+
+		DWORD CAgoraSDKObject::getGameProcessID(const char* GameName)
+		{
+			std::string strGameName = GameName;
+			if (strGameName.empty()) return 0;
+
+			PROCESSENTRY32 pe32;
+			pe32.dwSize = sizeof(pe32);
+
+			HANDLE hProcessSnap = ::CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+			if (hProcessSnap == INVALID_HANDLE_VALUE)
+				return 0;
+
+			BOOL bMore = ::Process32First(hProcessSnap, &pe32);
+			while (bMore)
+			{
+				if (strGameName.find((char *)pe32.szExeFile) != std::string::npos)
+				{
+					::CloseHandle(hProcessSnap);
+
+					//10s
+					const int HwndWaitTime = 500;
+					Sleep(HwndWaitTime);
+
+					return pe32.th32ProcessID;
+				}
+
+				bMore = ::Process32Next(hProcessSnap, &pe32);
+			}
+
+			::CloseHandle(hProcessSnap);
+			return 0;
+		}
+
+		bool CAgoraSDKObject::KillProcess(DWORD dwPid)
+		{
+			HANDLE killHandle = OpenProcess(PROCESS_TERMINATE, FALSE, dwPid);
+			if (killHandle == NULL)
+				return false;
+
+			TerminateProcess(killHandle, 0);
+			CloseHandle(killHandle);
+
+			return true;
+		}
+
+		int CAgoraSDKObject::startProcessSharedFromVideo(int width, int height, int captureFreq, int bitrate) {
 			if (irtcEngine)
 			{
-				return irtcEngine->startProcessShare(width, height, captureFreq, bitrate);
+				return irtcEngine->startProcessSharedFromVideo(width, height, captureFreq, bitrate);
+			}
+			return NOT_INIT_ENGINE;
+		}
+
+
+		int CAgoraSDKObject::startProcessSharedFromAudio() {
+			if (irtcEngine) 
+			{
+				return RtcEngineParameters(irtcEngine).startProcessSharedFromAudio();
+			}
+			return NOT_INIT_ENGINE;
+		}
+
+
+		int CAgoraSDKObject::stopProcessSharedFromAudio() {
+			if (irtcEngine)
+			{
+				return RtcEngineParameters(irtcEngine).stopProcessSharedFromAudio();
 			}
 			return NOT_INIT_ENGINE;
 		}

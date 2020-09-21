@@ -32,6 +32,8 @@ namespace IPC
     public class ScreenInfo
     {
         public int windowId { get; set; }
+        public bool isGame { get; set; }
+        public string gamePath { get; set; }
         public Rectangle screenRectangle { get; set; }
         public Rectangle regionRectangle { get; set; }
         public ScreenCaptureParameters screenCaptureParameters { get; set; }

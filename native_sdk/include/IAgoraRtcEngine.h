@@ -6289,7 +6289,7 @@ namespace agora {
 				- #ERR_INVALID_ARGUMENT: the argument is invalid.
 			 */
 			virtual int startScreenCaptureByWindowId(view_t windowId, const Rectangle& regionRect, const ScreenCaptureParameters& captureParams) = 0;
-
+#ifdef WIN32
 			/*
 				captureFreq: fps
 				bitrate: video stream bitrate
@@ -6299,7 +6299,7 @@ namespace agora {
 
 			/*
 			*/
-			virtual int startProcessShare(int width, int height, int captureFreq, int bitrate) = 0;
+			virtual int startProcessSharedFromVideo(int width, int height, int captureFreq, int bitrate) = 0;
 			/*
 				   agora_game_record.exe log path
 				   filePath : agora_game_record.exe log path
@@ -6312,7 +6312,7 @@ namespace agora {
 			- < 0: Failure.
 		   */
 			virtual int stopScreenCaptureEx() = 0;
-
+#endif
 			/** Sets the content hint for screen sharing.
 
 			A content hint suggests the type of the content being shared, so that the SDK applies different optimization algorithm to different types of content.
@@ -7665,7 +7665,23 @@ namespace agora {
 			int setInEarMonitoringVolume(int volume) {
 				return m_parameter ? m_parameter->setInt("che.audio.headset.monitoring.parameter", volume) : -ERR_NOT_INITIALIZED;
 			}
+			/*
+			start Process shared From Audio
 
+			*/
+			int startProcessSharedFromAudio() {
+				return m_parameter ? m_parameter->setBool(
+					"che.audio.start_process_shared_from_audio", true) : -ERR_NOT_INITIALIZED;
+			}
+
+			/*
+			stop process shared from audio
+
+			*/
+			int stopProcessSharedFromAudio() {
+				return m_parameter ? m_parameter->setBool(
+					"che.audio.stop_process_shared_from_audio", true) : -ERR_NOT_INITIALIZED;
+			}
 		protected:
 			AParameter& parameter() {
 				return m_parameter;

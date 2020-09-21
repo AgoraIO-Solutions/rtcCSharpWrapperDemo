@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -25,6 +26,7 @@ namespace ScreenShareProcess
         private IRtcEngine re_;
         private bool isShareByRect;
         private ScreenInfo screenInfo;
+        private static Process process;
 
         public Form1()
         {
@@ -71,12 +73,24 @@ namespace ScreenShareProcess
         {
             isShareByRect = false;
             screenInfo = JsonConvert.DeserializeObject<ScreenInfo>(messageBody);
-            int ret = re_.JoinChannel(channelName, "", uid);
+            re_.JoinChannel(channelName, "", uid);
         }
 
         private void handleScreenShare()
         {
-            if (isShareByRect)
+            if (screenInfo.isGame)
+            {
+                re_.EnableLocalVideo(true);
+                int ret = re_.startProcessSharedFromVideo(screenInfo.screenCaptureParameters.dimensions.width, screenInfo.screenCaptureParameters.dimensions.height, screenInfo.screenCaptureParameters.frameRate, 4000 * 1000);
+                if(ret != 0)
+                {
+                    re_.EnableLocalVideo(false);
+                }
+                re_.EnableDualStreamMode(false);
+                re_.startProcessSharedFromAudio();
+                re_.startWindowsShareByExePath(screenInfo.gamePath);
+            }
+            else if (isShareByRect)
             {
                 re_.StartScreenCaptureByScreenRect(convert(screenInfo.screenRectangle), convert(screenInfo.regionRectangle), convert(screenInfo.screenCaptureParameters));
             }
@@ -127,9 +141,10 @@ namespace ScreenShareProcess
             re_.EnableVideo();
             re_.DisableAudio();
             re_.DisableLastmileTest();
+            re_.SetLogFile("shareScreen.log");
             re_.MuteAllRemoteAudioStreams(true);
             re_.MuteAllRemoteVideoStreams(true);
-            re_.MuteLocalAudioStream(true);
+            //re_.MuteLocalAudioStream(true);
             re_.OnJoinChannelSuccess = JoinChannelSuccessHandler;
         }
 

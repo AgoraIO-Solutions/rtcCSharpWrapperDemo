@@ -124,8 +124,8 @@ namespace rtcCSharpWrapperDemo
             }
             re_.EnableVideo();
             agora_gaming_rtc.VideoDimensions videoDimensions = new agora_gaming_rtc.VideoDimensions();
-            videoDimensions.width = 240;
-            videoDimensions.height = 132;
+            videoDimensions.width = 560;
+            videoDimensions.height = 315;
             VideoEncoderConfiguration videoEncoderConfiguration = new VideoEncoderConfiguration();
             videoEncoderConfiguration.dimensions = videoDimensions;
             videoEncoderConfiguration.frameRate = FRAME_RATE.FRAME_RATE_FPS_30;
@@ -172,14 +172,6 @@ namespace rtcCSharpWrapperDemo
                     {
                         wnd1 = 0;
                     }
-                    if (wnd2 == 1 && panel3.Handle != pair.Value)
-                    {
-                        wnd2 = 0;
-                    }
-                    if (wnd3 == 1 && panel4.Handle != pair.Value)
-                    {
-                        wnd3 = 0;
-                    }
                     if (wnd4 == 1 && panel5.Handle != pair.Value)
                     {
                         wnd4 = 0;
@@ -192,16 +184,7 @@ namespace rtcCSharpWrapperDemo
 
                     VideoCanvas remoteVideo = new VideoCanvas();
                     remoteVideo.hwnd = h_wnd;
-                    remoteVideo.renderMode = RENDER_MODE_TYPE.RENDER_MODE_FIT;
-                    re_.SetupRemoteVideo(remoteVideo, uid, new IntPtr());
-                }
-                else if (wnd2 == 1)
-                {
-                    int h_wnd = panel3.Handle.ToInt32();
-                    remote_video_map_.Add(uid, panel3.Handle);
-                    VideoCanvas remoteVideo = new VideoCanvas();
-                    remoteVideo.hwnd = h_wnd;
-                    remoteVideo.renderMode = RENDER_MODE_TYPE.RENDER_MODE_FIT;
+                    remoteVideo.renderMode = RENDER_MODE_TYPE.RENDER_MODE_HIDDEN;
                     re_.SetupRemoteVideo(remoteVideo, uid, new IntPtr());
                 }
                 else if (wnd4 == 1)
@@ -210,7 +193,7 @@ namespace rtcCSharpWrapperDemo
                     remote_video_map_.Add(uid, panel5.Handle);
                     VideoCanvas remoteVideo = new VideoCanvas();
                     remoteVideo.hwnd = h_wnd;
-                    remoteVideo.renderMode = RENDER_MODE_TYPE.RENDER_MODE_FIT;
+                    remoteVideo.renderMode = RENDER_MODE_TYPE.RENDER_MODE_HIDDEN;
                     re_.SetupRemoteVideo(remoteVideo, uid, new IntPtr());
                 }
 
@@ -314,14 +297,13 @@ namespace rtcCSharpWrapperDemo
                 this.is_sharing_ = false;
                 return;
             }
-            if(checkBox2.Checked)
+
+            if (checkBox2.Checked && textBox2.Text.Length == 0)
             {
-                this.is_sharing_ = shareGame();
+                richTextBox1.Text += "Game Exe Path is empty!\n";
+                return;
             }
-            else
-            {
-                this.is_sharing_ = shareDesktopEx();
-            }
+            this.is_sharing_ = shareDesktopEx();
             if (this.is_sharing_)
             {
                 button3.Text = "Stop Sharing";
@@ -332,6 +314,8 @@ namespace rtcCSharpWrapperDemo
         {
             ScreenInfo screenInfo = new ScreenInfo()
             {
+                isGame = checkBox2.Checked,
+                gamePath = textBox2.Text,
                 windowId = (int)GetDesktopWindow(),
                 regionRectangle = new IPC.Rectangle()
                 {
@@ -367,19 +351,6 @@ namespace rtcCSharpWrapperDemo
                 messageType = IPC.MessageType.STOP_SHARE
             };
             IPCChannel.SendMessage(ipcName: SUB_PROCESS, command: JsonConvert.SerializeObject(message));
-        }
-
-        private bool shareGame()
-        {
-            if(textBox2.Text.Length == 0)
-            {
-                richTextBox1.Text += "Game Exe Path is empty!\n";
-                return false;
-            }
-            re_.enableHardWareEncoder();
-            re_.setLogFileFromPath("gameRecord.log");
-            int result = re_.startWindowsShareByExePath(1280, 720, 30, 1500 * 1000, textBox2.Text, 10000);
-            return result == 0;
         }
 
         public void UserOfflineHandlerUI(uint uid)
