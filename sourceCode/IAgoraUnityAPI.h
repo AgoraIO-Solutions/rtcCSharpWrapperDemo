@@ -2,12 +2,16 @@
 #define I_AGORA_UNITY_INTERFACE
 #include "AgoraSDKObject.h"
 #include <string.h>
+#ifdef WIN32
+#include "facade_screen_capture.h"
+#endif
 
 using namespace std;
 
 namespace agora {
     namespace unity {
         const char *TAG = "I_AGORA_UNITY_INTERFACE";
+		std::unique_ptr <FacadeScreenCapture> m_facadeScreenCapture;
         AGORA_API bool createEngine(const char *appId);
         AGORA_API bool createEngine2(const char *appId, unsigned int areaCode);
         AGORA_API bool deleteEngine();
@@ -188,7 +192,9 @@ namespace agora {
         AGORA_API int setScreenCaptureContentHint(int videoContentHint);
         AGORA_API int updateScreenCaptureParameters(int screenCaptureVideoDimenWidth, int screenCaptureVideoDimenHeight, int screenCaptureFrameRate, int screenCaptureBitrate, bool screenCaptureCaptureMouseCursor);
         AGORA_API int updateScreenCaptureRegion(int x, int y, int width, int height);
-		AGORA_API void startWindowsShareByExePath(const char *exe_path);
+		AGORA_API void prepareGameShare();
+		AGORA_API void prepareGame(const char *exe_path);
+		AGORA_API int startWindowsShareByExePath(int width, int height, int captureFreq, int bitrate, const char *exe_path, unsigned int uid);
 		AGORA_API int startProcessSharedFromVideo(int width, int height, int captureFreq, int bitrate);
 		AGORA_API int startProcessSharedFromAudio();
 		AGORA_API int stopProcessSharedFromAudio();

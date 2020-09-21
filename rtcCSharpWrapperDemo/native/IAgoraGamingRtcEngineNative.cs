@@ -726,7 +726,13 @@ namespace agora_gaming_rtc
         protected static extern int startScreenCaptureByWindowId(int windowId, int regionRectX, int regionRectY, int regionRectWidth, int regionRectHeight,  int screenCaptureVideoDimenWidth, int screenCaptureVideoDimenHeight, int screenCaptureFrameRate, int screenCaptureBitrate, bool screenCaptureCaptureMouseCursor);
 
         [DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern void startWindowsShareByExePath(string exe_path);
+        protected static extern int startWindowsShareByExePath(int width, int height, int captureFreq, int bitrate, string exe_path, uint uid);
+
+        [DllImport(MyLibName, CharSet = CharSet.Ansi)]
+        protected static extern void prepareGameShare();
+
+        [DllImport(MyLibName, CharSet = CharSet.Ansi)]
+        protected static extern void prepareGame(string exe_path);
 
         [DllImport(MyLibName, CharSet = CharSet.Ansi)]
         protected static extern int startProcessSharedFromVideo(int width, int height, int captureFreq, int bitrate);

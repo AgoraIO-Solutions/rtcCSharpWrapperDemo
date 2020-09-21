@@ -20,6 +20,7 @@ namespace IPC
         UPDATE_SHARE = 3,
         STOP_SHARE = 4,
         CLOSE_APP = 5,
+        START_GAME_SHARE = 6,
     }
 
     public class BaseInfo

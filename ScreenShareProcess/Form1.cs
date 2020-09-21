@@ -26,14 +26,12 @@ namespace ScreenShareProcess
         private IRtcEngine re_;
         private bool isShareByRect;
         private ScreenInfo screenInfo;
-        private static Process process;
 
         public Form1()
         {
             InitializeComponent();
             _ipc = new IPC.IPCChannel(this, PROCESS_ID);
             _ipc.OnMessage += OnMessage;
-            initAgoraMedia();
         }
 
         private int OnMessage(IWin32Window receiver, string message)
@@ -46,6 +44,7 @@ namespace ScreenShareProcess
                     this.Close();
                     break;
                 case IPC.MessageType.SHARE_BASE_INFO:
+                    initAgoraMedia();
                     configureBaseInfo(pushMessage.messageBody);
                     break;
                 case IPC.MessageType.START_SHARE_BY_RECT:
@@ -54,6 +53,9 @@ namespace ScreenShareProcess
                 case IPC.MessageType.START_SHARE_BY_WINDOW:
                     startShareByWindowId(pushMessage.messageBody);
                     break;
+                case IPC.MessageType.START_GAME_SHARE:
+                    startGameShare(pushMessage.messageBody);
+                    break;
                 case IPC.MessageType.STOP_SHARE:
                     stopShare();
                     break;
@@ -61,6 +63,13 @@ namespace ScreenShareProcess
                     break;
             }
             return 1;
+        }
+
+        private void startGameShare(string messageBody)
+        {
+            re_.prepareGameShare();
+            screenInfo = JsonConvert.DeserializeObject<ScreenInfo>(messageBody);
+            re_.JoinChannel(channelName, "", uid);
         }
 
         private void stopShare()
@@ -81,14 +90,14 @@ namespace ScreenShareProcess
             if (screenInfo.isGame)
             {
                 re_.EnableLocalVideo(true);
-                int ret = re_.startProcessSharedFromVideo(screenInfo.screenCaptureParameters.dimensions.width, screenInfo.screenCaptureParameters.dimensions.height, screenInfo.screenCaptureParameters.frameRate, 4000 * 1000);
+                int ret = re_.startProcessSharedFromVideo(screenInfo.screenCaptureParameters.dimensions.width, screenInfo.screenCaptureParameters.dimensions.height, screenInfo.screenCaptureParameters.frameRate, 1500 * 1000);
                 if(ret != 0)
                 {
                     re_.EnableLocalVideo(false);
                 }
                 re_.EnableDualStreamMode(false);
-                re_.startProcessSharedFromAudio();
-                re_.startWindowsShareByExePath(screenInfo.gamePath);
+                //re_.startProcessSharedFromAudio();
+                re_.prepareGame(screenInfo.gamePath);
             }
             else if (isShareByRect)
             {
@@ -144,7 +153,7 @@ namespace ScreenShareProcess
             re_.SetLogFile("shareScreen.log");
             re_.MuteAllRemoteAudioStreams(true);
             re_.MuteAllRemoteVideoStreams(true);
-            //re_.MuteLocalAudioStream(true);
+            re_.MuteLocalAudioStream(true);
             re_.OnJoinChannelSuccess = JoinChannelSuccessHandler;
         }
 

@@ -146,6 +146,7 @@
     <ClCompile Include="..\sourceCode\videoRender\UserVideoFrameData.cpp" />
     <ClCompile Include="..\sourceCode\videoRender\VideoRender.cpp" />
     <ClCompile Include="..\sourceCode\videoRender\VideoRenderFactory.cpp" />
+    <ClCompile Include="..\sourceCode\facade_screen_capture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\sourceCode\AgoraSDKObject.h" />
@@ -167,6 +168,7 @@
     <ClInclude Include="..\sourceCode\videoRender\UserVideoFrameData.h" />
     <ClInclude Include="..\sourceCode\videoRender\VideoRender.h" />
     <ClInclude Include="..\sourceCode\videoRender\VideoRenderFactory.h" />
+    <ClInclude Include="..\sourceCode\facade_screen_capture.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>

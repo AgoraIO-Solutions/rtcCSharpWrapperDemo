@@ -36,12 +36,6 @@ namespace agora
       IAudioFrameObserver::AudioFrame audioFrame;
       std::map<IChannel*, ChannelEventHandler*> channelInfo;
       const char *TAG = "AgoraSDKObject";
-	  void start_game_process(const char* GameName);
-	  std::string getAbsoluteDir();
-	  void start_hook(const std::string &processName, const std::string &cmdLine, int timeout);
-	  DWORD getGameProcessID(const char* GameName);
-	  bool KillProcess(DWORD dwPid);
-
 
     public:
       ~CAgoraSDKObject();
@@ -250,10 +244,10 @@ namespace agora
       virtual int startScreenCaptureByScreenRect(int screenRectX, int screenRectY, int screenRectWidth, int screenRectHeight, int regionRectX, int regionRectY, int regionRectWidth, int regionRectHeight, int screenCaptureVideoDimenWidth, int screenCaptureVideoDimenHeight, int screenCaptureFrameRate, int screenCaptureBitrate, bool screenCaptureCaptureMouseCursor);
       virtual int startScreenCaptureByWindowId(int windowId, int regionRectX, int regionRectY, int regionRectWidth, int regionRectHeight,  int screenCaptureVideoDimenWidth, int screenCaptureVideoDimenHeight, int screenCaptureFrameRate, int screenCaptureBitrate, bool screenCaptureCaptureMouseCursor);
 	  virtual int startWindowsShareByExePath(int width, int height, int captureFreq, int bitrate, const char* exe_path, unsigned int uid);
-	  void init_process_env(const char * GameName);
 	  virtual int startProcessSharedFromVideo(int width, int height, int captureFreq, int bitrate);
 	  virtual int startProcessSharedFromAudio();
 	  virtual int stopProcessSharedFromAudio();
+	  virtual void prepareGameShare();
 	  virtual void setLogFileFromPath(const char* filePath);
 	  virtual int stopScreenCaptureEx();
 	  virtual int setTextureCapture();

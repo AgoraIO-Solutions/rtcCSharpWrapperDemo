@@ -297,12 +297,6 @@ namespace rtcCSharpWrapperDemo
                 this.is_sharing_ = false;
                 return;
             }
-
-            if (checkBox2.Checked && textBox2.Text.Length == 0)
-            {
-                richTextBox1.Text += "Game Exe Path is empty!\n";
-                return;
-            }
             this.is_sharing_ = shareDesktopEx();
             if (this.is_sharing_)
             {
@@ -310,8 +304,50 @@ namespace rtcCSharpWrapperDemo
             }
         }
 
+        private bool shareGame()
+        {
+            if (textBox2.Text.Length == 0)
+            {
+                richTextBox1.Text += "Game Exe Path is empty!\n";
+                return false;
+            }
+            // enable when using sdk embedded dual process
+            if (true)
+            {
+                re_.setLogFileFromPath("gameRecord.log");
+                int result = re_.startWindowsShareByExePath(1280, 720, 30, 1500 * 1000, textBox2.Text, 10000);
+                return result == 0;
+            }
+            ScreenInfo screenInfo = new ScreenInfo()
+            {
+                isGame = checkBox2.Checked,
+                gamePath = textBox2.Text,
+                screenCaptureParameters = new IPC.ScreenCaptureParameters()
+                {
+                    frameRate = 30,
+                    captureMouseCursor = false,
+                    dimensions = new IPC.VideoDimensions()
+                    {
+                        width = 1280,
+                        height = 720,
+                    }
+                }
+            };
+            PushMessage message = new PushMessage()
+            {
+                messageType = IPC.MessageType.START_GAME_SHARE,
+                messageBody = JsonConvert.SerializeObject(screenInfo),
+            };
+            IPCChannel.SendMessage(ipcName: SUB_PROCESS, command: JsonConvert.SerializeObject(message));
+            return true;
+        }
+
         private bool shareDesktopEx()
         {
+            if (checkBox2.Checked)
+            {
+                return shareGame();
+            }
             ScreenInfo screenInfo = new ScreenInfo()
             {
                 isGame = checkBox2.Checked,
