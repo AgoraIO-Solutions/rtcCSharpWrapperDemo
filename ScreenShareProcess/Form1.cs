@@ -68,6 +68,7 @@ namespace ScreenShareProcess
         private void startGameShare(string messageBody)
         {
             re_.prepareGameShare();
+            re_.enableHardWareEncoder();
             screenInfo = JsonConvert.DeserializeObject<ScreenInfo>(messageBody);
             re_.JoinChannel(channelName, "", uid);
         }
@@ -96,7 +97,7 @@ namespace ScreenShareProcess
                     re_.EnableLocalVideo(false);
                 }
                 re_.EnableDualStreamMode(false);
-                //re_.startProcessSharedFromAudio();
+                re_.startProcessSharedFromAudio();
                 re_.prepareGame(screenInfo.gamePath);
             }
             else if (isShareByRect)
