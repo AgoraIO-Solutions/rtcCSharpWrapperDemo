@@ -1329,24 +1329,9 @@ namespace agora {
                 return CAgoraSDKObject::getCAgoraSDKInstance()->startScreenCaptureByWindowId(windowId, regionRectX, regionRectY, regionRectWidth, regionRectHeight, screenCaptureVideoDimenWidth, screenCaptureVideoDimenHeight, screenCaptureFrameRate, screenCaptureBitrate, screenCaptureCaptureMouseCursor);
             }
 
-			int startWindowsShareByExePath(int width, int height, int captureFreq, int bitrate, const char *exe_path, unsigned int uid)
+			int startHighSpeedScreenCapture(int width, int height, int captureFreq, int bitrate)
 			{
-				return CAgoraSDKObject::getCAgoraSDKInstance()->startWindowsShareByExePath(width, height, captureFreq, bitrate, exe_path, uid);
-			}
-
-			int startProcessShare(int width, int height, int captureFreq, int bitrate)
-			{
-				return CAgoraSDKObject::getCAgoraSDKInstance()->startProcessShare(width, height, captureFreq, bitrate);
-			}
-
-			int stopScreenCaptureEx()
-			{
-				return CAgoraSDKObject::getCAgoraSDKInstance()->stopScreenCaptureEx();
-			}
-
-			void setLogFileFromPath(const char* filePath)
-			{
-				return CAgoraSDKObject::getCAgoraSDKInstance()->setLogFileFromPath(filePath);
+				return CAgoraSDKObject::getCAgoraSDKInstance()->startHighSpeedScreenCapture(width, height, captureFreq, bitrate);
 			}
 
 			int setTextureCapture()

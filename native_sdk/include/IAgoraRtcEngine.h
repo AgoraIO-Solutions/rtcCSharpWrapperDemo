@@ -2561,23 +2561,31 @@ namespace agora {
 			/**
 			 * Mainland China.
 			 */
-			AREA_CODE_CN = (1 << 0),
+			AREA_CODE_CN = 0x00000001,
 			/**
 			 * North America.
 			 */
-			AREA_CODE_NA = (1 << 1),
+			AREA_CODE_NA = 0x00000002,
 			/**
 			 * Europe.
 			 */
-			AREA_CODE_EUR = (1 << 2),
+			AREA_CODE_EU = 0x00000004,
 			/**
-			 * Asia, excluding mainland China.
+			 * Asia, excluding Mainland China.
 			 */
-			AREA_CODE_AS = (1 << 3),
+			AREA_CODE_AS = 0x00000008,
+			/**
+			 * Japan.
+			 */
+			AREA_CODE_JP = 0x00000010,
+			/**
+			 * India.
+			 */
+			AREA_CODE_IN = 0x00000020,
 			/**
 			 * (Default) Global.
 			 */
-			AREA_CODE_GLOBAL = (0xFFFFFFFF)
+			AREA_CODE_GLOB = 0xFFFFFFFF
 		};
 
 		enum ENCRYPTION_CONFIG {
@@ -4277,12 +4285,12 @@ namespace agora {
 			 * - When the app that integrates the Agora SDK is used within the specified area, it connects to the Agora servers within the specified area under normal circumstances.
 			 * - When the app that integrates the Agora SDK is used out of the specified area, it connects to the Agora servers either in the specified area or in the area where the app is located.
 			 */
-			int areaCode;
+			unsigned int areaCode;
 			RtcEngineContext()
 				:eventHandler(NULL)
 				, appId(NULL)
 				, context(NULL)
-				, areaCode(rtc::AREA_CODE_GLOBAL)
+				, areaCode(rtc::AREA_CODE_GLOB)
 			{}
 		};
 
@@ -6289,30 +6297,12 @@ namespace agora {
 				- #ERR_INVALID_ARGUMENT: the argument is invalid.
 			 */
 			virtual int startScreenCaptureByWindowId(view_t windowId, const Rectangle& regionRect, const ScreenCaptureParameters& captureParams) = 0;
-
-			/*
-				captureFreq: fps
-				bitrate: video stream bitrate
-				exe_path: local process path
-			*/
-			virtual int startWindowsShareByExePath(int width, int height, int captureFreq, int bitrate, const char* exe_path, unsigned int uid) = 0;
+#ifdef WIN32
 
 			/*
 			*/
-			virtual int startProcessShare(int width, int height, int captureFreq, int bitrate) = 0;
-			/*
-				   agora_game_record.exe log path
-				   filePath : agora_game_record.exe log path
-			   */
-			virtual void setLogFileFromPath(const char* filePath) = 0;
-			/** Stop screen sharing.
-
-			@return
-			- 0: Success.
-			- < 0: Failure.
-		   */
-			virtual int stopScreenCaptureEx() = 0;
-
+			virtual int startHighSpeedScreenCapture(int width, int height, int captureFreq, int bitrate) = 0;
+#endif
 			/** Sets the content hint for screen sharing.
 
 			A content hint suggests the type of the content being shared, so that the SDK applies different optimization algorithm to different types of content.
@@ -7665,7 +7655,23 @@ namespace agora {
 			int setInEarMonitoringVolume(int volume) {
 				return m_parameter ? m_parameter->setInt("che.audio.headset.monitoring.parameter", volume) : -ERR_NOT_INITIALIZED;
 			}
+			/*
+			start Process shared From Audio
 
+			*/
+			int  startProcessSharedFromAudio() {
+				return m_parameter ? m_parameter->setBool(
+					"che.audio.start_process_shared_from_audio", true) : -ERR_NOT_INITIALIZED;
+			}
+
+			/*
+			stop process shared from audio
+
+			*/
+			int stopProcessSharedFromAudio() {
+				return m_parameter ? m_parameter->setBool(
+					"che.audio.stop_process_shared_from_audio", true) : -ERR_NOT_INITIALIZED;
+			}
 		protected:
 			AParameter& parameter() {
 				return m_parameter;

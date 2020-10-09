@@ -176,14 +176,6 @@ namespace rtcCSharpWrapperDemo
                     {
                         wnd2 = 0;
                     }
-                    if (wnd3 == 1 && panel4.Handle != pair.Value)
-                    {
-                        wnd3 = 0;
-                    }
-                    if (wnd4 == 1 && panel5.Handle != pair.Value)
-                    {
-                        wnd4 = 0;
-                    }
                 }
                 if (wnd1 == 1)
                 {
@@ -199,15 +191,6 @@ namespace rtcCSharpWrapperDemo
                 {
                     int h_wnd = panel3.Handle.ToInt32();
                     remote_video_map_.Add(uid, panel3.Handle);
-                    VideoCanvas remoteVideo = new VideoCanvas();
-                    remoteVideo.hwnd = h_wnd;
-                    remoteVideo.renderMode = RENDER_MODE_TYPE.RENDER_MODE_FIT;
-                    re_.SetupRemoteVideo(remoteVideo, uid, new IntPtr());
-                }
-                else if (wnd4 == 1)
-                {
-                    int h_wnd = panel5.Handle.ToInt32();
-                    remote_video_map_.Add(uid, panel5.Handle);
                     VideoCanvas remoteVideo = new VideoCanvas();
                     remoteVideo.hwnd = h_wnd;
                     remoteVideo.renderMode = RENDER_MODE_TYPE.RENDER_MODE_FIT;
@@ -302,21 +285,14 @@ namespace rtcCSharpWrapperDemo
             }
             if(is_sharing_)
             {
-                if (checkBox2.Checked)
-                {
-                    re_.stopScreenCaptureEx();
-                }
-                else
-                {
-                    stopShareDesktopEx();
-                }
+                stopShareDesktopEx();
                 button3.Text = "Start Sharing";
                 this.is_sharing_ = false;
                 return;
             }
             if(checkBox2.Checked)
             {
-                this.is_sharing_ = shareGame();
+                this.is_sharing_ = shareDesktopEx();
             }
             else
             {
@@ -332,6 +308,7 @@ namespace rtcCSharpWrapperDemo
         {
             ScreenInfo screenInfo = new ScreenInfo()
             {
+                //isHardwareAcceleration = checkBox2.Checked,
                 windowId = (int)GetDesktopWindow(),
                 regionRectangle = new IPC.Rectangle()
                 {
@@ -351,9 +328,10 @@ namespace rtcCSharpWrapperDemo
                     }
                 }
             };
+            
             PushMessage message = new PushMessage()
             {
-                messageType = IPC.MessageType.START_SHARE_BY_WINDOW,
+                messageType = checkBox2.Checked? IPC.MessageType.START_SHARE_BY_GPU : IPC.MessageType.START_SHARE_BY_WINDOW,
                 messageBody = JsonConvert.SerializeObject(screenInfo),
             };
             IPCChannel.SendMessage(ipcName: SUB_PROCESS, command: JsonConvert.SerializeObject(message));
@@ -367,19 +345,6 @@ namespace rtcCSharpWrapperDemo
                 messageType = IPC.MessageType.STOP_SHARE
             };
             IPCChannel.SendMessage(ipcName: SUB_PROCESS, command: JsonConvert.SerializeObject(message));
-        }
-
-        private bool shareGame()
-        {
-            if(textBox2.Text.Length == 0)
-            {
-                richTextBox1.Text += "Game Exe Path is empty!\n";
-                return false;
-            }
-            re_.enableHardWareEncoder();
-            re_.setLogFileFromPath("gameRecord.log");
-            int result = re_.startWindowsShareByExePath(1280, 720, 30, 1500 * 1000, textBox2.Text, 10000);
-            return result == 0;
         }
 
         public void UserOfflineHandlerUI(uint uid)

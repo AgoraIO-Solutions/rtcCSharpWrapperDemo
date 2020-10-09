@@ -2169,36 +2169,11 @@ namespace agora {
             return NOT_INIT_ENGINE;
         }
 
-		int CAgoraSDKObject::startWindowsShareByExePath(int width, int height, int captureFreq, int bitrate, const char* exe_path, unsigned int uid) {
+
+		int CAgoraSDKObject::startHighSpeedScreenCapture(int width, int height, int captureFreq, int bitrate) {
 			if (irtcEngine)
 			{
-				return irtcEngine->startWindowsShareByExePath(width,height,captureFreq,bitrate,exe_path,uid);
-			}
-			return NOT_INIT_ENGINE;
-		}
-
-
-		int CAgoraSDKObject::startProcessShare(int width, int height, int captureFreq, int bitrate) {
-			if (irtcEngine)
-			{
-				return irtcEngine->startProcessShare(width, height, captureFreq, bitrate);
-			}
-			return NOT_INIT_ENGINE;
-		}
-
-
-		void CAgoraSDKObject:: setLogFileFromPath(const char* filePath) {
-			if (irtcEngine)
-			{
-				irtcEngine->setLogFileFromPath(filePath);
-			}
-		}
-
-
-		int CAgoraSDKObject::stopScreenCaptureEx() {
-			if (irtcEngine)
-			{
-				return irtcEngine->stopScreenCaptureEx();
+				return irtcEngine->startHighSpeedScreenCapture(width, height, captureFreq, bitrate);
 			}
 			return NOT_INIT_ENGINE;
 		}

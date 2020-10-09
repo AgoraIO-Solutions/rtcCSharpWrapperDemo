@@ -24,6 +24,7 @@ namespace ScreenShareProcess
         private uint uid = 10000;
         private IRtcEngine re_;
         private bool isShareByRect;
+        private bool isShareByGPU;
         private ScreenInfo screenInfo;
 
         public Form1()
@@ -52,6 +53,9 @@ namespace ScreenShareProcess
                 case IPC.MessageType.START_SHARE_BY_WINDOW:
                     startShareByWindowId(pushMessage.messageBody);
                     break;
+                case IPC.MessageType.START_SHARE_BY_GPU:
+                    startShareByGPU(pushMessage.messageBody);
+                    break;
                 case IPC.MessageType.STOP_SHARE:
                     stopShare();
                     break;
@@ -70,13 +74,25 @@ namespace ScreenShareProcess
         private void startShareByWindowId(string messageBody)
         {
             isShareByRect = false;
+            isShareByGPU = false;
+            screenInfo = JsonConvert.DeserializeObject<ScreenInfo>(messageBody);
+            int ret = re_.JoinChannel(channelName, "", uid);
+        }
+
+        private void startShareByGPU(string messageBody)
+        {
+            isShareByGPU = true;
             screenInfo = JsonConvert.DeserializeObject<ScreenInfo>(messageBody);
             int ret = re_.JoinChannel(channelName, "", uid);
         }
 
         private void handleScreenShare()
         {
-            if (isShareByRect)
+            if (isShareByGPU)
+            {
+                int ret = re_.startHighSpeedScreenCapture(screenInfo.screenCaptureParameters.dimensions.width, screenInfo.screenCaptureParameters.dimensions.height, screenInfo.screenCaptureParameters.frameRate, 4000000);
+            }
+            else if (isShareByRect)
             {
                 re_.StartScreenCaptureByScreenRect(convert(screenInfo.screenRectangle), convert(screenInfo.regionRectangle), convert(screenInfo.screenCaptureParameters));
             }
@@ -89,6 +105,7 @@ namespace ScreenShareProcess
         private void startShareByRect(string messageBody)
         {
             isShareByRect = true;
+            isShareByGPU = false;
             screenInfo = JsonConvert.DeserializeObject<ScreenInfo>(messageBody);
             int ret = re_.JoinChannel(channelName, "", uid);
         }

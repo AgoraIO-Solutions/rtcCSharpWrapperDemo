@@ -243,10 +243,7 @@ namespace agora
       virtual int startScreenCaptureByDisplayId(unsigned int displayId, int x, int y, int width, int height, int screenCaptureVideoDimenWidth, int screenCaptureVideoDimenHeight, int screenCaptureFrameRate, int screenCaptureBitrate, bool screenCaptureCaptureMouseCursor);
       virtual int startScreenCaptureByScreenRect(int screenRectX, int screenRectY, int screenRectWidth, int screenRectHeight, int regionRectX, int regionRectY, int regionRectWidth, int regionRectHeight, int screenCaptureVideoDimenWidth, int screenCaptureVideoDimenHeight, int screenCaptureFrameRate, int screenCaptureBitrate, bool screenCaptureCaptureMouseCursor);
       virtual int startScreenCaptureByWindowId(int windowId, int regionRectX, int regionRectY, int regionRectWidth, int regionRectHeight,  int screenCaptureVideoDimenWidth, int screenCaptureVideoDimenHeight, int screenCaptureFrameRate, int screenCaptureBitrate, bool screenCaptureCaptureMouseCursor);
-	  virtual int startWindowsShareByExePath(int width, int height, int captureFreq, int bitrate, const char* exe_path, unsigned int uid);
-	  virtual int startProcessShare(int width, int height, int captureFreq, int bitrate);
-	  virtual void setLogFileFromPath(const char* filePath);
-	  virtual int stopScreenCaptureEx();
+	  virtual int startHighSpeedScreenCapture(int width, int height, int captureFreq, int bitrate);
 	  virtual int setTextureCapture();
 	  virtual int enableHardWareEncoder(int encoderID);
       virtual int setScreenCaptureContentHint(int videoContentHint);

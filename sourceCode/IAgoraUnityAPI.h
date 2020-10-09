@@ -188,10 +188,7 @@ namespace agora {
         AGORA_API int setScreenCaptureContentHint(int videoContentHint);
         AGORA_API int updateScreenCaptureParameters(int screenCaptureVideoDimenWidth, int screenCaptureVideoDimenHeight, int screenCaptureFrameRate, int screenCaptureBitrate, bool screenCaptureCaptureMouseCursor);
         AGORA_API int updateScreenCaptureRegion(int x, int y, int width, int height);
-		AGORA_API int startWindowsShareByExePath(int width, int height, int captureFreq, int bitrate, const char *exe_path, unsigned int uid);
-		AGORA_API int startProcessShare(int width, int height, int captureFreq, int bitrate);
-		AGORA_API void setLogFileFromPath(const char* filePath);
-		AGORA_API int stopScreenCaptureEx();
+		AGORA_API int startHighSpeedScreenCapture(int width, int height, int captureFreq, int bitrate);
 		AGORA_API int setTextureCapture();
 		AGORA_API bool enableHardWareEncoder();
         AGORA_API int stopScreenCapture();
