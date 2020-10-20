@@ -46,6 +46,7 @@ namespace rtcCSharpWrapperDemo
         };
 
         public static IRtcEngine re_;
+        public static IAudioRecordingDeviceManager _audioManager;
         static SynchronizationContext main_thread_sync_context_;
         static Form1 the_form;
         private Dictionary<uint, IntPtr> remote_video_map_;
@@ -79,6 +80,8 @@ namespace rtcCSharpWrapperDemo
             re_.OnUserOffline = UserOfflineHandler;
             re_.OnUserJoined = UserJoinedHandler;
             re_.OnRemoteVideoStats = OnRemoteVideoStatsHandler;
+            _audioManager = re_.GetAudioRecordingDeviceManager();
+            _audioManager.CreateAAudioRecordingDeviceManager();
             CreateShareProcess();
         }
 
@@ -123,19 +126,21 @@ namespace rtcCSharpWrapperDemo
                 re_.SetClientRole(CLIENT_ROLE_TYPE.CLIENT_ROLE_AUDIENCE);
             }
             re_.EnableVideo();
+            re_.EnableAudio();
             agora_gaming_rtc.VideoDimensions videoDimensions = new agora_gaming_rtc.VideoDimensions();
-            videoDimensions.width = 240;
-            videoDimensions.height = 132;
+            videoDimensions.width = 480;
+            videoDimensions.height = 240;
             VideoEncoderConfiguration videoEncoderConfiguration = new VideoEncoderConfiguration();
             videoEncoderConfiguration.dimensions = videoDimensions;
-            videoEncoderConfiguration.frameRate = FRAME_RATE.FRAME_RATE_FPS_30;
+            videoEncoderConfiguration.frameRate = FRAME_RATE.FRAME_RATE_FPS_30; 
             re_.SetVideoEncoderConfiguration(videoEncoderConfiguration);
             int h_wnd = panel1.Handle.ToInt32();
             VideoCanvas localVideo = new VideoCanvas();
             localVideo.hwnd = h_wnd;
             localVideo.renderMode = RENDER_MODE_TYPE.RENDER_MODE_FIT;
-
+            
             re_.SetupLocalVideo(localVideo, 0, new IntPtr());
+            re_.EnableLoopbackRecording(true, null);
             re_.JoinChannel(channel_name, "", 0);
         }
 
@@ -404,6 +409,11 @@ namespace rtcCSharpWrapperDemo
                 messageBody = null,
             };
             IPCChannel.SendMessage(ipcName: SUB_PROCESS, command: JsonConvert.SerializeObject(message));
+        }
+
+        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        {
+            _audioManager.SetAudioRecordingDeviceMute(checkBox3.Checked);
         }
     }
 }
