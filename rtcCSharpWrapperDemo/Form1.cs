@@ -138,10 +138,21 @@ namespace rtcCSharpWrapperDemo
             VideoCanvas localVideo = new VideoCanvas();
             localVideo.hwnd = h_wnd;
             localVideo.renderMode = RENDER_MODE_TYPE.RENDER_MODE_FIT;
-            
+            re_.SetParameters("{\"che.audio.specify.codec\":\"AACLC_2ch\"}");
             re_.SetupLocalVideo(localVideo, 0, new IntPtr());
             re_.EnableLoopbackRecording(true, null);
             re_.JoinChannel(channel_name, "", 0);
+            BaseInfo info = new BaseInfo()
+            {
+                channelName = channel_name,
+            };
+            string jsonData = JsonConvert.SerializeObject(info);
+            PushMessage message = new PushMessage()
+            {
+                messageType = MessageType.SHARE_BASE_INFO,
+                messageBody = jsonData,
+            };
+            IPCChannel.SendMessage(ipcName: SUB_PROCESS, command: JsonConvert.SerializeObject(message));
         }
 
         public void OnRemoteVideoStatsHandler(RemoteVideoStats stats)
@@ -232,21 +243,14 @@ namespace rtcCSharpWrapperDemo
 
         public static void JoinChannelSuccessHandler(string channelName, uint uid, int elapsed)
         {
-            BaseInfo info = new BaseInfo()
-            {
-                appId = "123",
-                channelName = channelName,
-                uid = uid + 1,
-            };
-            string jsonData = JsonConvert.SerializeObject(info);
-            PushMessage message = new PushMessage()
-            {
-                messageType = MessageType.SHARE_BASE_INFO,
-                messageBody = jsonData,
-            };
-            IPCChannel.SendMessage(ipcName: SUB_PROCESS, command: JsonConvert.SerializeObject(message));
             main_thread_sync_context_.Post(
                 new SendOrPostCallback(JoinChannelSuccessHandlerUI), the_form);
+        }
+
+        private string utf8String(string input)
+        {
+            byte[] encodeBytes = System.Text.Encoding.UTF8.GetBytes(input);
+            return System.Text.Encoding.UTF8.GetString(encodeBytes);
         }
 
         public static void LeaveChannelHandlerUI(object state)
@@ -295,37 +299,30 @@ namespace rtcCSharpWrapperDemo
                 this.is_sharing_ = false;
                 return;
             }
-            if(checkBox2.Checked)
-            {
-                this.is_sharing_ = shareDesktopEx();
-            }
             else
             {
                 this.is_sharing_ = shareDesktopEx();
-            }
-            if (this.is_sharing_)
-            {
                 button3.Text = "Stop Sharing";
             }
         }
 
         private bool shareDesktopEx()
         {
+            var screen = Screen.AllScreens[monitors.SelectedIndex];
             ScreenInfo screenInfo = new ScreenInfo()
             {
-                //isHardwareAcceleration = checkBox2.Checked,
                 windowId = (int)GetDesktopWindow(),
-                regionRectangle = new IPC.Rectangle()
+                screenRectangle = new IPC.Rectangle()
                 {
-                    x=0,
-                    y=0,
-                    width=1280,
-                    height=720,
+                    x = screen.Bounds.X,
+                    y = screen.Bounds.Y,
+                    width = screen.Bounds.Width,
+                    height = screen.Bounds.Height,
                 },
                 screenCaptureParameters = new IPC.ScreenCaptureParameters()
                 {
                     frameRate = 30,
-                    captureMouseCursor = false,
+                    captureMouseCursor = isTrackMouse.Checked,
                     dimensions = new IPC.VideoDimensions()
                     {
                         width = 1280,
@@ -336,7 +333,7 @@ namespace rtcCSharpWrapperDemo
             
             PushMessage message = new PushMessage()
             {
-                messageType = checkBox2.Checked? IPC.MessageType.START_SHARE_BY_GPU : IPC.MessageType.START_SHARE_BY_WINDOW,
+                messageType = IPC.MessageType.START_SHARE_BY_RECT,
                 messageBody = JsonConvert.SerializeObject(screenInfo),
             };
             IPCChannel.SendMessage(ipcName: SUB_PROCESS, command: JsonConvert.SerializeObject(message));
@@ -371,6 +368,10 @@ namespace rtcCSharpWrapperDemo
         public void UserJoinedHandlerUI(uint uid)
         {
             richTextBox1.Text += String.Format("UserJoinedHandlerUI: {0}\n", uid);
+            if(uid != 10000 && !remoteUsers.Items.Contains(uid))
+            {
+                remoteUsers.Items.Add(uid);
+            }
         }
 
         public void UserJoinedHandler(uint uid, int elapsed) {
@@ -411,9 +412,46 @@ namespace rtcCSharpWrapperDemo
             IPCChannel.SendMessage(ipcName: SUB_PROCESS, command: JsonConvert.SerializeObject(message));
         }
 
-        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        private void label2_Click(object sender, EventArgs e)
         {
-            _audioManager.SetAudioRecordingDeviceMute(checkBox3.Checked);
+
+
+
+
+
+
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            foreach (var screen in Screen.AllScreens)
+            {
+                monitors.Items.Add(screen.DeviceName);
+            }
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+
+        }
+
+        private void monitors_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            button3.Enabled = true;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            var uid = remoteUsers.SelectedValue;
+            var vgame = gameVol.Value;
+            var vspeaker = speakerVol.Value;
+            re_.SetParameters(String.Format("{{\"che.audio.playout.uid.volume\": {{\"channel\":{0}, \"uid\":{0:D}, \"micVolume\":{0:D}, \"gameVolume\":{0:D}}}}}", textBox1.Text, uid, vgame, vspeaker));
+        }
+
+        private void remoteUsers_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            button4.Enabled = true;
         }
     }
 }

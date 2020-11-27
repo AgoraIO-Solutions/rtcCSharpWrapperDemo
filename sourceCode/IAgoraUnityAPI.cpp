@@ -1329,11 +1329,6 @@ namespace agora {
                 return CAgoraSDKObject::getCAgoraSDKInstance()->startScreenCaptureByWindowId(windowId, regionRectX, regionRectY, regionRectWidth, regionRectHeight, screenCaptureVideoDimenWidth, screenCaptureVideoDimenHeight, screenCaptureFrameRate, screenCaptureBitrate, screenCaptureCaptureMouseCursor);
             }
 
-			int startHighSpeedScreenCapture(int width, int height, int captureFreq, int bitrate)
-			{
-				return CAgoraSDKObject::getCAgoraSDKInstance()->startHighSpeedScreenCapture(width, height, captureFreq, bitrate);
-			}
-
 			int setTextureCapture()
 			{
 				return CAgoraSDKObject::getCAgoraSDKInstance()->setTextureCapture();

@@ -24,7 +24,6 @@ namespace ScreenShareProcess
         private uint uid = 10000;
         private IRtcEngine re_;
         private bool isShareByRect;
-        private bool isShareByGPU;
         private ScreenInfo screenInfo;
 
         public Form1()
@@ -53,9 +52,6 @@ namespace ScreenShareProcess
                 case IPC.MessageType.START_SHARE_BY_WINDOW:
                     startShareByWindowId(pushMessage.messageBody);
                     break;
-                case IPC.MessageType.START_SHARE_BY_GPU:
-                    startShareByGPU(pushMessage.messageBody);
-                    break;
                 case IPC.MessageType.STOP_SHARE:
                     stopShare();
                     break;
@@ -74,25 +70,13 @@ namespace ScreenShareProcess
         private void startShareByWindowId(string messageBody)
         {
             isShareByRect = false;
-            isShareByGPU = false;
-            screenInfo = JsonConvert.DeserializeObject<ScreenInfo>(messageBody);
-            int ret = re_.JoinChannel(channelName, "", uid);
-        }
-
-        private void startShareByGPU(string messageBody)
-        {
-            isShareByGPU = true;
             screenInfo = JsonConvert.DeserializeObject<ScreenInfo>(messageBody);
             int ret = re_.JoinChannel(channelName, "", uid);
         }
 
         private void handleScreenShare()
         {
-            if (isShareByGPU)
-            {
-                int ret = re_.startHighSpeedScreenCapture(screenInfo.screenCaptureParameters.dimensions.width, screenInfo.screenCaptureParameters.dimensions.height, screenInfo.screenCaptureParameters.frameRate, 4000000);
-            }
-            else if (isShareByRect)
+            if (isShareByRect)
             {
                 re_.StartScreenCaptureByScreenRect(convert(screenInfo.screenRectangle), convert(screenInfo.regionRectangle), convert(screenInfo.screenCaptureParameters));
             }
@@ -105,7 +89,6 @@ namespace ScreenShareProcess
         private void startShareByRect(string messageBody)
         {
             isShareByRect = true;
-            isShareByGPU = false;
             screenInfo = JsonConvert.DeserializeObject<ScreenInfo>(messageBody);
             int ret = re_.JoinChannel(channelName, "", uid);
         }
@@ -142,11 +125,15 @@ namespace ScreenShareProcess
             re_.SetChannelProfile(CHANNEL_PROFILE.CHANNEL_PROFILE_LIVE_BROADCASTING);
             re_.SetClientRole(CLIENT_ROLE_TYPE.CLIENT_ROLE_BROADCASTER);
             re_.EnableVideo();
+            re_.SetVideoProfile(VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_1080P_5, false);
             re_.DisableAudio();
             re_.DisableLastmileTest();
             re_.MuteAllRemoteAudioStreams(true);
             re_.MuteAllRemoteVideoStreams(true);
             re_.MuteLocalAudioStream(true);
+            re_.SetLogFile("sdklog.log");
+            re_.SetLogFilter(LOG_FILTER.DEBUG);
+            re_.SetParameters("{\"che.video.h264.hwenc\":1}");
             re_.OnJoinChannelSuccess = JoinChannelSuccessHandler;
         }
 

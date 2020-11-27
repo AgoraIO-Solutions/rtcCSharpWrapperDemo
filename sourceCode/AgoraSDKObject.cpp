@@ -2170,20 +2170,11 @@ namespace agora {
         }
 
 
-		int CAgoraSDKObject::startHighSpeedScreenCapture(int width, int height, int captureFreq, int bitrate) {
-			if (irtcEngine)
-			{
-				return irtcEngine->startHighSpeedScreenCapture(width, height, captureFreq, bitrate);
-			}
-			return NOT_INIT_ENGINE;
-		}
-
-
 		int CAgoraSDKObject::setTextureCapture() {
 			if (irtcEngine)
 			{
 				RtcEngineParameters rtcEngineParameters(irtcEngine);
-				return rtcEngineParameters.setTextureCapture();
+				//return rtcEngineParameters.setTextureCapture();
 			}
 			return NOT_INIT_ENGINE;
 		}

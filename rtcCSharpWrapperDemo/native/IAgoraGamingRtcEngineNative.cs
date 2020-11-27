@@ -726,9 +726,6 @@ namespace agora_gaming_rtc
         protected static extern int startScreenCaptureByWindowId(int windowId, int regionRectX, int regionRectY, int regionRectWidth, int regionRectHeight,  int screenCaptureVideoDimenWidth, int screenCaptureVideoDimenHeight, int screenCaptureFrameRate, int screenCaptureBitrate, bool screenCaptureCaptureMouseCursor);
 
         [DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern int startHighSpeedScreenCapture(int width, int height, int captureFreq, int bitrate);
-
-        [DllImport(MyLibName, CharSet = CharSet.Ansi)]
         protected static extern bool enableHardWareEncoder();
 
         [DllImport(MyLibName, CharSet = CharSet.Ansi)]

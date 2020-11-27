@@ -2885,11 +2885,6 @@ namespace agora_gaming_rtc
             return IRtcEngineNative.startScreenCaptureByWindowId(windowId, regionRect.x, regionRect.y, regionRect.width, regionRect.height, screenCaptureParameters.dimensions.width, screenCaptureParameters.dimensions.height, screenCaptureParameters.frameRate, screenCaptureParameters.bitrate, screenCaptureParameters.captureMouseCursor);
         }
 
-        public int startHighSpeedScreenCapture(int width, int height, int captureFreq, int bitrate)
-        {
-            return IRtcEngineNative.startHighSpeedScreenCapture(width, height, captureFreq, bitrate);
-        }
-
         public int setTextureCapture()
         {
             return IRtcEngineNative.setTextureCapture();

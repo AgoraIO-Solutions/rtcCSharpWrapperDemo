@@ -20,7 +20,6 @@ namespace IPC
         UPDATE_SHARE = 3,
         STOP_SHARE = 4,
         CLOSE_APP = 5,
-        START_SHARE_BY_GPU = 6,
     }
 
     public class BaseInfo
