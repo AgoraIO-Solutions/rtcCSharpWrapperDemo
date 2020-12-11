@@ -322,6 +322,7 @@ namespace rtcCSharpWrapperDemo
                 screenCaptureParameters = new IPC.ScreenCaptureParameters()
                 {
                     frameRate = 30,
+                    bitrate = 4000,
                     captureMouseCursor = isTrackMouse.Checked,
                     dimensions = new IPC.VideoDimensions()
                     {
