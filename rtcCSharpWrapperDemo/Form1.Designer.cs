@@ -46,6 +46,10 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.label9 = new System.Windows.Forms.Label();
+            this.button4 = new System.Windows.Forms.Button();
+            this.remoteUsers = new System.Windows.Forms.ComboBox();
+            this.isTrackMouse = new System.Windows.Forms.CheckBox();
             this.monitors = new System.Windows.Forms.ComboBox();
             this.label12 = new System.Windows.Forms.Label();
             this.speakerVol = new System.Windows.Forms.TrackBar();
@@ -53,10 +57,6 @@
             this.gameVol = new System.Windows.Forms.TrackBar();
             this.label10 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.isTrackMouse = new System.Windows.Forms.CheckBox();
-            this.remoteUsers = new System.Windows.Forms.ComboBox();
-            this.button4 = new System.Windows.Forms.Button();
-            this.label9 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.speakerVol)).BeginInit();
@@ -66,28 +66,28 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(11, 16);
+            this.label1.Location = new System.Drawing.Point(11, 17);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(83, 12);
+            this.label1.Size = new System.Drawing.Size(80, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Channel Name:";
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(109, 12);
+            this.textBox1.Location = new System.Drawing.Point(109, 13);
             this.textBox1.Margin = new System.Windows.Forms.Padding(2);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(105, 21);
+            this.textBox1.Size = new System.Drawing.Size(105, 20);
             this.textBox1.TabIndex = 1;
             this.textBox1.Text = "demoChannel1";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(230, 6);
+            this.button1.Location = new System.Drawing.Point(230, 7);
             this.button1.Margin = new System.Windows.Forms.Padding(2);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(66, 32);
+            this.button1.Size = new System.Drawing.Size(66, 35);
             this.button1.TabIndex = 2;
             this.button1.Text = "Join";
             this.button1.UseVisualStyleBackColor = true;
@@ -95,10 +95,10 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(314, 6);
+            this.button2.Location = new System.Drawing.Point(314, 7);
             this.button2.Margin = new System.Windows.Forms.Padding(2);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(63, 32);
+            this.button2.Size = new System.Drawing.Size(63, 35);
             this.button2.TabIndex = 3;
             this.button2.Text = "Leave";
             this.button2.UseVisualStyleBackColor = true;
@@ -106,10 +106,10 @@
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(521, 21);
+            this.label2.Location = new System.Drawing.Point(521, 23);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(47, 12);
+            this.label2.Size = new System.Drawing.Size(47, 13);
             this.label2.TabIndex = 4;
             this.label2.Text = "Status:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -118,38 +118,38 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(572, 21);
+            this.label3.Location = new System.Drawing.Point(572, 23);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(11, 12);
+            this.label3.Size = new System.Drawing.Size(10, 13);
             this.label3.TabIndex = 5;
             this.label3.Text = " ";
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.panel1.Location = new System.Drawing.Point(1297, 302);
+            this.panel1.Location = new System.Drawing.Point(1297, 327);
             this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(605, 330);
+            this.panel1.Size = new System.Drawing.Size(605, 358);
             this.panel1.TabIndex = 6;
             // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.panel2.Location = new System.Drawing.Point(1295, 648);
+            this.panel2.Location = new System.Drawing.Point(1295, 702);
             this.panel2.Margin = new System.Windows.Forms.Padding(2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(300, 200);
+            this.panel2.Size = new System.Drawing.Size(300, 217);
             this.panel2.TabIndex = 7;
             // 
             // button3
             // 
             this.button3.Enabled = false;
-            this.button3.Location = new System.Drawing.Point(411, 25);
+            this.button3.Location = new System.Drawing.Point(411, 27);
             this.button3.Margin = new System.Windows.Forms.Padding(2);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(125, 32);
+            this.button3.Size = new System.Drawing.Size(125, 35);
             this.button3.TabIndex = 12;
             this.button3.Text = "Start Sharing";
             this.button3.UseVisualStyleBackColor = true;
@@ -157,29 +157,29 @@
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(11, 765);
+            this.richTextBox1.Location = new System.Drawing.Point(11, 829);
             this.richTextBox1.Margin = new System.Windows.Forms.Padding(2);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(1280, 83);
+            this.richTextBox1.Size = new System.Drawing.Size(1280, 90);
             this.richTextBox1.TabIndex = 13;
             this.richTextBox1.Text = "";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(229, 14);
+            this.label7.Location = new System.Drawing.Point(229, 15);
             this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(0, 12);
+            this.label7.Size = new System.Drawing.Size(0, 13);
             this.label7.TabIndex = 14;
             // 
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.pictureBox1.Location = new System.Drawing.Point(11, 41);
+            this.pictureBox1.Location = new System.Drawing.Point(11, 44);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1280, 720);
+            this.pictureBox1.Size = new System.Drawing.Size(1280, 780);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 16;
             this.pictureBox1.TabStop = false;
@@ -189,10 +189,10 @@
             this.checkBox1.AutoSize = true;
             this.checkBox1.Checked = true;
             this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.Location = new System.Drawing.Point(2, 258);
+            this.checkBox1.Location = new System.Drawing.Point(2, 280);
             this.checkBox1.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(120, 16);
+            this.checkBox1.Size = new System.Drawing.Size(113, 17);
             this.checkBox1.TabIndex = 17;
             this.checkBox1.Text = "Broadcaster Mode";
             this.checkBox1.UseVisualStyleBackColor = true;
@@ -202,39 +202,39 @@
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.panel3.Location = new System.Drawing.Point(1602, 648);
+            this.panel3.Location = new System.Drawing.Point(1602, 702);
             this.panel3.Margin = new System.Windows.Forms.Padding(2);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(300, 200);
+            this.panel3.Size = new System.Drawing.Size(300, 217);
             this.panel3.TabIndex = 10;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(1295, 634);
+            this.label4.Location = new System.Drawing.Point(1295, 687);
             this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(137, 12);
+            this.label4.Size = new System.Drawing.Size(117, 13);
             this.label4.TabIndex = 19;
             this.label4.Text = "First Remote User View";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(1600, 634);
+            this.label5.Location = new System.Drawing.Point(1600, 687);
             this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(143, 12);
+            this.label5.Size = new System.Drawing.Size(135, 13);
             this.label5.TabIndex = 20;
             this.label5.Text = "Second Remote User View";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(1295, 288);
+            this.label6.Location = new System.Drawing.Point(1295, 312);
             this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(95, 12);
+            this.label6.Size = new System.Drawing.Size(84, 13);
             this.label6.TabIndex = 21;
             this.label6.Text = "Local User View";
             // 
@@ -256,30 +256,71 @@
             this.panel4.Controls.Add(this.button3);
             this.panel4.Location = new System.Drawing.Point(1297, 5);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(605, 280);
+            this.panel4.Size = new System.Drawing.Size(605, 303);
             this.panel4.TabIndex = 23;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(4, 113);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(83, 13);
+            this.label9.TabIndex = 35;
+            this.label9.Text = "Remote User ID";
+            // 
+            // button4
+            // 
+            this.button4.Enabled = false;
+            this.button4.Location = new System.Drawing.Point(411, 262);
+            this.button4.Margin = new System.Windows.Forms.Padding(2);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(125, 35);
+            this.button4.TabIndex = 34;
+            this.button4.Text = "Adjust Volume";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // remoteUsers
+            // 
+            this.remoteUsers.FormattingEnabled = true;
+            this.remoteUsers.Location = new System.Drawing.Point(248, 109);
+            this.remoteUsers.Name = "remoteUsers";
+            this.remoteUsers.Size = new System.Drawing.Size(121, 21);
+            this.remoteUsers.TabIndex = 33;
+            this.remoteUsers.SelectedIndexChanged += new System.EventHandler(this.remoteUsers_SelectedIndexChanged);
+            // 
+            // isTrackMouse
+            // 
+            this.isTrackMouse.AutoSize = true;
+            this.isTrackMouse.Location = new System.Drawing.Point(135, 29);
+            this.isTrackMouse.Margin = new System.Windows.Forms.Padding(2);
+            this.isTrackMouse.Name = "isTrackMouse";
+            this.isTrackMouse.Size = new System.Drawing.Size(91, 17);
+            this.isTrackMouse.TabIndex = 32;
+            this.isTrackMouse.Text = "Mouse Cursor";
+            this.isTrackMouse.UseVisualStyleBackColor = true;
             // 
             // monitors
             // 
             this.monitors.FormattingEnabled = true;
-            this.monitors.Location = new System.Drawing.Point(6, 25);
+            this.monitors.Location = new System.Drawing.Point(6, 27);
             this.monitors.Name = "monitors";
-            this.monitors.Size = new System.Drawing.Size(121, 20);
+            this.monitors.Size = new System.Drawing.Size(121, 21);
             this.monitors.TabIndex = 31;
             this.monitors.SelectedIndexChanged += new System.EventHandler(this.monitors_SelectedIndexChanged);
             // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(4, 200);
+            this.label12.Location = new System.Drawing.Point(4, 217);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(89, 12);
+            this.label12.Size = new System.Drawing.Size(85, 13);
             this.label12.TabIndex = 30;
             this.label12.Text = "Speaker Volume";
             // 
             // speakerVol
             // 
-            this.speakerVol.Location = new System.Drawing.Point(248, 200);
+            this.speakerVol.Location = new System.Drawing.Point(248, 217);
             this.speakerVol.Name = "speakerVol";
             this.speakerVol.Size = new System.Drawing.Size(288, 45);
             this.speakerVol.TabIndex = 29;
@@ -287,15 +328,15 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(4, 148);
+            this.label11.Location = new System.Drawing.Point(4, 160);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(71, 12);
+            this.label11.Size = new System.Drawing.Size(73, 13);
             this.label11.TabIndex = 28;
             this.label11.Text = "Game Volume";
             // 
             // gameVol
             // 
-            this.gameVol.Location = new System.Drawing.Point(248, 148);
+            this.gameVol.Location = new System.Drawing.Point(248, 160);
             this.gameVol.Name = "gameVol";
             this.gameVol.Size = new System.Drawing.Size(288, 45);
             this.gameVol.TabIndex = 26;
@@ -304,67 +345,26 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(4, 82);
+            this.label10.Location = new System.Drawing.Point(4, 89);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(179, 12);
+            this.label10.Size = new System.Drawing.Size(148, 13);
             this.label10.TabIndex = 25;
             this.label10.Text = "Playout Volume Configuration:";
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(4, 6);
+            this.label8.Location = new System.Drawing.Point(4, 7);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(179, 12);
+            this.label8.Size = new System.Drawing.Size(148, 13);
             this.label8.TabIndex = 23;
             this.label8.Text = "Screen Sharing Configuration:";
             // 
-            // isTrackMouse
-            // 
-            this.isTrackMouse.AutoSize = true;
-            this.isTrackMouse.Location = new System.Drawing.Point(135, 27);
-            this.isTrackMouse.Margin = new System.Windows.Forms.Padding(2);
-            this.isTrackMouse.Name = "isTrackMouse";
-            this.isTrackMouse.Size = new System.Drawing.Size(96, 16);
-            this.isTrackMouse.TabIndex = 32;
-            this.isTrackMouse.Text = "Mouse Cursor";
-            this.isTrackMouse.UseVisualStyleBackColor = true;
-            // 
-            // remoteUsers
-            // 
-            this.remoteUsers.FormattingEnabled = true;
-            this.remoteUsers.Location = new System.Drawing.Point(248, 101);
-            this.remoteUsers.Name = "remoteUsers";
-            this.remoteUsers.Size = new System.Drawing.Size(121, 20);
-            this.remoteUsers.TabIndex = 33;
-            this.remoteUsers.SelectedIndexChanged += new System.EventHandler(this.remoteUsers_SelectedIndexChanged);
-            // 
-            // button4
-            // 
-            this.button4.Enabled = false;
-            this.button4.Location = new System.Drawing.Point(411, 242);
-            this.button4.Margin = new System.Windows.Forms.Padding(2);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(125, 32);
-            this.button4.TabIndex = 34;
-            this.button4.Text = "Adjust Volume";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(4, 104);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(89, 12);
-            this.label9.TabIndex = 35;
-            this.label9.Text = "Remote User ID";
-            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1904, 861);
+            this.ClientSize = new System.Drawing.Size(1904, 933);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);

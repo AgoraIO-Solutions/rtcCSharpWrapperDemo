@@ -80,8 +80,6 @@ namespace rtcCSharpWrapperDemo
             re_.OnUserOffline = UserOfflineHandler;
             re_.OnUserJoined = UserJoinedHandler;
             re_.OnRemoteVideoStats = OnRemoteVideoStatsHandler;
-            _audioManager = re_.GetAudioRecordingDeviceManager();
-            _audioManager.CreateAAudioRecordingDeviceManager();
             CreateShareProcess();
         }
 
@@ -127,6 +125,7 @@ namespace rtcCSharpWrapperDemo
             }
             re_.EnableVideo();
             re_.EnableAudio();
+            re_.SetAudioProfile(AUDIO_PROFILE_TYPE.AUDIO_PROFILE_MUSIC_STANDARD_STEREO, AUDIO_SCENARIO_TYPE.AUDIO_SCENARIO_CHATROOM_ENTERTAINMENT);
             agora_gaming_rtc.VideoDimensions videoDimensions = new agora_gaming_rtc.VideoDimensions();
             videoDimensions.width = 480;
             videoDimensions.height = 240;
@@ -444,10 +443,11 @@ namespace rtcCSharpWrapperDemo
 
         private void button4_Click(object sender, EventArgs e)
         {
-            var uid = remoteUsers.SelectedValue;
-            var vgame = gameVol.Value;
-            var vspeaker = speakerVol.Value;
-            re_.SetParameters(String.Format("{{\"che.audio.playout.uid.volume\": {{\"channel\":{0}, \"uid\":{0:D}, \"micVolume\":{0:D}, \"gameVolume\":{0:D}}}}}", textBox1.Text, uid, vgame, vspeaker));
+            var uid = remoteUsers.SelectedItem;
+            var vgame = gameVol.Value * 10;
+            var vspeaker = speakerVol.Value * 10;
+            var paramStr = String.Format("{{\"che.audio.playout.uid.volume\": {{\"channel\":\"{0}\", \"uid\":{1:D}, \"micVolume\":{3:D}, \"gameVolume\":{2}}}}}", textBox1.Text, uid, vgame, vspeaker);
+            re_.SetParameters(paramStr);
         }
 
         private void remoteUsers_SelectedIndexChanged(object sender, EventArgs e)
