@@ -308,6 +308,7 @@ namespace rtcCSharpWrapperDemo
         private bool shareDesktopEx()
         {
             var screen = Screen.AllScreens[monitors.SelectedIndex];
+            var ratio = screen.Bounds.Width / screen.Bounds.Height;
             ScreenInfo screenInfo = new ScreenInfo()
             {
                 windowId = (int)GetDesktopWindow(),
@@ -322,7 +323,7 @@ namespace rtcCSharpWrapperDemo
                 {
                     frameRate = 30,
                     bitrate = 4000,
-                    captureMouseCursor = isTrackMouse.Checked,
+                    captureMouseCursor = false,
                     dimensions = new IPC.VideoDimensions()
                     {
                         width = 1280,
@@ -414,13 +415,7 @@ namespace rtcCSharpWrapperDemo
 
         private void label2_Click(object sender, EventArgs e)
         {
-
-
-
-
-
-
-
+            
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -439,6 +434,7 @@ namespace rtcCSharpWrapperDemo
         private void monitors_SelectedIndexChanged(object sender, EventArgs e)
         {
             button3.Enabled = true;
+
         }
 
         private void button4_Click(object sender, EventArgs e)

@@ -49,7 +49,6 @@
             this.label9 = new System.Windows.Forms.Label();
             this.button4 = new System.Windows.Forms.Button();
             this.remoteUsers = new System.Windows.Forms.ComboBox();
-            this.isTrackMouse = new System.Windows.Forms.CheckBox();
             this.monitors = new System.Windows.Forms.ComboBox();
             this.label12 = new System.Windows.Forms.Label();
             this.speakerVol = new System.Windows.Forms.TrackBar();
@@ -244,7 +243,6 @@
             this.panel4.Controls.Add(this.label9);
             this.panel4.Controls.Add(this.button4);
             this.panel4.Controls.Add(this.remoteUsers);
-            this.panel4.Controls.Add(this.isTrackMouse);
             this.panel4.Controls.Add(this.monitors);
             this.panel4.Controls.Add(this.label12);
             this.panel4.Controls.Add(this.speakerVol);
@@ -288,17 +286,6 @@
             this.remoteUsers.Size = new System.Drawing.Size(121, 21);
             this.remoteUsers.TabIndex = 33;
             this.remoteUsers.SelectedIndexChanged += new System.EventHandler(this.remoteUsers_SelectedIndexChanged);
-            // 
-            // isTrackMouse
-            // 
-            this.isTrackMouse.AutoSize = true;
-            this.isTrackMouse.Location = new System.Drawing.Point(135, 29);
-            this.isTrackMouse.Margin = new System.Windows.Forms.Padding(2);
-            this.isTrackMouse.Name = "isTrackMouse";
-            this.isTrackMouse.Size = new System.Drawing.Size(91, 17);
-            this.isTrackMouse.TabIndex = 32;
-            this.isTrackMouse.Text = "Mouse Cursor";
-            this.isTrackMouse.UseVisualStyleBackColor = true;
             // 
             // monitors
             // 
@@ -425,7 +412,6 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ComboBox monitors;
-        private System.Windows.Forms.CheckBox isTrackMouse;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.ComboBox remoteUsers;
         private System.Windows.Forms.Label label9;

@@ -78,6 +78,7 @@ namespace ScreenShareProcess
         {
             if (isShareByRect)
             {
+                re_.SetScreenCaptureContentHint(VideoContentHint.CONTENT_HINT_MOTION);
                 re_.StartScreenCaptureByScreenRect(convert(screenInfo.screenRectangle), convert(screenInfo.regionRectangle), convert(screenInfo.screenCaptureParameters));
             }
             else
@@ -113,7 +114,7 @@ namespace ScreenShareProcess
                 captureMouseCursor = orig.captureMouseCursor,
                 dimensions = new agora_gaming_rtc.VideoDimensions()
                 {
-                    width = orig.dimensions.width,
+                    width = orig.dimensions.width, 
                     height = orig.dimensions.height,
                 }
             };
@@ -125,7 +126,7 @@ namespace ScreenShareProcess
             re_.SetChannelProfile(CHANNEL_PROFILE.CHANNEL_PROFILE_LIVE_BROADCASTING);
             re_.SetClientRole(CLIENT_ROLE_TYPE.CLIENT_ROLE_BROADCASTER);
             re_.EnableVideo();
-            re_.SetVideoProfile(VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_1080P_5, false);
+            re_.SetVideoProfile(VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_720P_6, false);
             re_.DisableAudio();
             re_.DisableLastmileTest();
             re_.MuteAllRemoteAudioStreams(true);
@@ -134,6 +135,7 @@ namespace ScreenShareProcess
             re_.SetLogFile("sdklog.log");
             re_.SetLogFilter(LOG_FILTER.DEBUG);
             re_.SetParameters("{\"che.video.h264.hwenc\":1}");
+            //re_.SetParameters("{\"che.video.enc_auto_adjust\":0}");
             re_.OnJoinChannelSuccess = JoinChannelSuccessHandler;
         }
 
