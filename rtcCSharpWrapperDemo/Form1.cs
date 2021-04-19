@@ -312,6 +312,13 @@ namespace rtcCSharpWrapperDemo
             ScreenInfo screenInfo = new ScreenInfo()
             {
                 displayId = Convert.ToUInt32(monitors.SelectedIndex),
+                regionRectangle = new IPC.Rectangle()
+                {
+                    x = 0,
+                    y = 0,
+                    width = 1920,
+                    height = 1080
+                },
                 screenCaptureParameters = new IPC.ScreenCaptureParameters()
                 {
                     frameRate = 30,

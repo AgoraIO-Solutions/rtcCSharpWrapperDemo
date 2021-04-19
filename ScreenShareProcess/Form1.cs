@@ -77,7 +77,6 @@ namespace ScreenShareProcess
         private void handleScreenShare()
         {
             re_.StartScreenCaptureByDisplayId(screenInfo.displayId, convert(screenInfo.regionRectangle), convert(screenInfo.screenCaptureParameters));
-            //re_.StartScreenCaptureByDisplayId(1, convert(screenInfo.screenRectangle), convert(screenInfo.screenCaptureParameters));
         }
 
         private void startShareByRect(string messageBody)
