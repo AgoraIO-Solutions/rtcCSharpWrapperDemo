@@ -76,15 +76,8 @@ namespace ScreenShareProcess
 
         private void handleScreenShare()
         {
-            if (isShareByRect)
-            {
-                re_.SetScreenCaptureContentHint(VideoContentHint.CONTENT_HINT_MOTION);
-                re_.StartScreenCaptureByScreenRect(convert(screenInfo.screenRectangle), convert(screenInfo.regionRectangle), convert(screenInfo.screenCaptureParameters));
-            }
-            else
-            {
-                re_.StartScreenCaptureByWindowId(screenInfo.windowId, convert(screenInfo.screenRectangle), convert(screenInfo.screenCaptureParameters));
-            }
+            re_.StartScreenCaptureByDisplayId(screenInfo.displayId, convert(screenInfo.regionRectangle), convert(screenInfo.screenCaptureParameters));
+            //re_.StartScreenCaptureByDisplayId(1, convert(screenInfo.screenRectangle), convert(screenInfo.screenCaptureParameters));
         }
 
         private void startShareByRect(string messageBody)
@@ -132,8 +125,9 @@ namespace ScreenShareProcess
             re_.MuteAllRemoteAudioStreams(true);
             re_.MuteAllRemoteVideoStreams(true);
             re_.MuteLocalAudioStream(true);
-            re_.SetLogFile("sdklog.log");
-            re_.SetLogFilter(LOG_FILTER.DEBUG);
+            //re_.EnableLocalVideo(false);
+            re_.SetLogFile("screenshare.log");
+            re_.SetLogFilter(LOG_FILTER.INFO);
             re_.SetParameters("{\"che.video.h264.hwenc\":1}");
             //re_.SetParameters("{\"che.video.enc_auto_adjust\":0}");
             re_.OnJoinChannelSuccess = JoinChannelSuccessHandler;

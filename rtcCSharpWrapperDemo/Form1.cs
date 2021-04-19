@@ -311,24 +311,17 @@ namespace rtcCSharpWrapperDemo
             var ratio = screen.Bounds.Width / screen.Bounds.Height;
             ScreenInfo screenInfo = new ScreenInfo()
             {
-                windowId = (int)GetDesktopWindow(),
-                screenRectangle = new IPC.Rectangle()
-                {
-                    x = screen.Bounds.X,
-                    y = screen.Bounds.Y,
-                    width = screen.Bounds.Width,
-                    height = screen.Bounds.Height,
-                },
+                displayId = Convert.ToUInt32(monitors.SelectedIndex),
                 screenCaptureParameters = new IPC.ScreenCaptureParameters()
                 {
                     frameRate = 30,
                     bitrate = 4000,
-                    captureMouseCursor = false,
+                    captureMouseCursor = true,
                     dimensions = new IPC.VideoDimensions()
                     {
                         width = 1280,
                         height = 720,
-                    }
+                    },
                 }
             };
             
