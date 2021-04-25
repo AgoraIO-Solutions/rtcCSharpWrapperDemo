@@ -32,6 +32,7 @@ namespace IPC
     public class ScreenInfo
     {
         public int windowId { get; set; }
+        public uint displayId { get; set; }
         public Rectangle screenRectangle { get; set; }
         public Rectangle regionRectangle { get; set; }
         public ScreenCaptureParameters screenCaptureParameters { get; set; }

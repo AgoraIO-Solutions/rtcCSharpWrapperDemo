@@ -364,24 +364,24 @@ namespace rtcCSharpWrapperDemo
             var screen = Screen.AllScreens[monitors.SelectedIndex];
             ScreenInfo screenInfo = new ScreenInfo()
             {
-                windowId = (int)GetDesktopWindow(),
-                screenRectangle = new IPC.Rectangle()
+                displayId = Convert.ToUInt32(monitors.SelectedIndex),
+                regionRectangle = new IPC.Rectangle()
                 {
-                    x = screen.Bounds.X,
-                    y = screen.Bounds.Y,
-                    width = screen.Bounds.Width,
-                    height = screen.Bounds.Height,
+                    x = 0,
+                    y = 0,
+                    width = 1920,
+                    height = 1080
                 },
                 screenCaptureParameters = new IPC.ScreenCaptureParameters()
                 {
                     frameRate = 30,
                     bitrate = 4000,
-                    captureMouseCursor = false,
+                    captureMouseCursor = true,
                     dimensions = new IPC.VideoDimensions()
                     {
                         width = 1280,
                         height = 720,
-                    }
+                    },
                 }
             };
             

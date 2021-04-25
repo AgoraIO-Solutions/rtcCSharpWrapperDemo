@@ -2093,7 +2093,6 @@ namespace agora {
         {
             if (irtcEngine)
             {
-                #ifdef WRAPPER_MAC
                 Rectangle rectangle;
                 rectangle.x = x;
                 rectangle.y = y;
@@ -2106,9 +2105,6 @@ namespace agora {
                 screenCaptureParameters.bitrate = screenCaptureBitrate;
                 screenCaptureParameters.captureMouseCursor = screenCaptureCaptureMouseCursor;
                 return irtcEngine->startScreenCaptureByDisplayId(displayId, rectangle, screenCaptureParameters);
-                #else
-                return NOT_SUPPORT_API;
-                #endif
             }
             return NOT_INIT_ENGINE;
         }
