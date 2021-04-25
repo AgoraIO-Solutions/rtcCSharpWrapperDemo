@@ -126,7 +126,7 @@ namespace ScreenShareProcess
             re_.SetChannelProfile(CHANNEL_PROFILE.CHANNEL_PROFILE_LIVE_BROADCASTING);
             re_.SetClientRole(CLIENT_ROLE_TYPE.CLIENT_ROLE_BROADCASTER);
             re_.EnableVideo();
-            re_.SetVideoProfile(VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_720P_6, false);
+            re_.SetVideoProfile(VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_720P_6, false);
             re_.DisableAudio();
             re_.DisableLastmileTest();
             re_.MuteAllRemoteAudioStreams(true);
@@ -134,8 +134,8 @@ namespace ScreenShareProcess
             re_.MuteLocalAudioStream(true);
             re_.SetLogFile("sdklog.log");
             re_.SetLogFilter(LOG_FILTER.DEBUG);
+            re_.SetParameters("{\"che.video.setting_fr_auto_adjust\":false}");
             re_.SetParameters("{\"che.video.h264.hwenc\":1}");
-            //re_.SetParameters("{\"che.video.enc_auto_adjust\":0}");
             re_.OnJoinChannelSuccess = JoinChannelSuccessHandler;
         }
 

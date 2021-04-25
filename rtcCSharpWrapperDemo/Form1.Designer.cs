@@ -56,6 +56,10 @@
             this.gameVol = new System.Windows.Forms.TrackBar();
             this.label10 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.cameraDevice = new System.Windows.Forms.ComboBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.speakerVol)).BeginInit();
@@ -105,7 +109,7 @@
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(521, 23);
+            this.label2.Location = new System.Drawing.Point(607, 22);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(47, 13);
@@ -117,7 +121,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(572, 23);
+            this.label3.Location = new System.Drawing.Point(658, 22);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(10, 13);
@@ -347,11 +351,56 @@
             this.label8.TabIndex = 23;
             this.label8.Text = "Screen Sharing Configuration:";
             // 
+            // cameraDevice
+            // 
+            this.cameraDevice.FormattingEnabled = true;
+            this.cameraDevice.Location = new System.Drawing.Point(1157, 14);
+            this.cameraDevice.Name = "cameraDevice";
+            this.cameraDevice.Size = new System.Drawing.Size(121, 21);
+            this.cameraDevice.TabIndex = 36;
+            this.cameraDevice.SelectedIndexChanged += new System.EventHandler(this.cameraDevice_SelectedIndexChanged);
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(1053, 17);
+            this.label13.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(79, 13);
+            this.label13.TabIndex = 37;
+            this.label13.Text = "Select Camera:";
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(393, 7);
+            this.button5.Margin = new System.Windows.Forms.Padding(2);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(66, 35);
+            this.button5.TabIndex = 38;
+            this.button5.Text = "Mute Camera";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(478, 7);
+            this.button6.Margin = new System.Windows.Forms.Padding(2);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(66, 35);
+            this.button6.TabIndex = 39;
+            this.button6.Text = "Unmute Camera";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1904, 933);
+            this.Controls.Add(this.button6);
+            this.Controls.Add(this.button5);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.cameraDevice);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -411,10 +460,14 @@
         private System.Windows.Forms.TrackBar gameVol;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.ComboBox monitors;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.ComboBox remoteUsers;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ComboBox cameraDevice;
+        private System.Windows.Forms.ComboBox monitors;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button6;
     }
 }
 
