@@ -379,7 +379,7 @@ namespace agora
 
       void onLocalVideoStateChanged(int localVideoState, int error);
 
-      void onRtmpStreamingStateChanged(const char *url, RTMP_STREAM_PUBLISH_STATE state, RTMP_STREAM_PUBLISH_ERROR errCode);
+      void onRtmpStreamingStateChanged(const char *url, RTMP_STREAM_PUBLISH_STATE state, RTMP_STREAM_PUBLISH_ERROR_TYPE errCode);
 
       void onNetworkTypeChanged(NETWORK_TYPE type);
 

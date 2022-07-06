@@ -217,7 +217,7 @@ namespace agora {
                     _engineEvent->onMediaRelayEvent(_channelId.data(), (int)code);
             }
 
-            void ChannelEventHandler::onRtmpStreamingStateChanged(IChannel *rtcChannel, const char *url, RTMP_STREAM_PUBLISH_STATE state, RTMP_STREAM_PUBLISH_ERROR errCode) 
+            void ChannelEventHandler::onRtmpStreamingStateChanged(IChannel *rtcChannel, const char *url, RTMP_STREAM_PUBLISH_STATE state, RTMP_STREAM_PUBLISH_ERROR_TYPE errCode)
             {
                 if (_engineEvent)
                     _engineEvent->onRtmpStreamingStateChanged(_channelId.data(), url, (int)state, (int)errCode);

@@ -147,7 +147,7 @@ namespace agora {
         void CAgoraSDKObject::setAppType()
         {
             IRtcEngine3 *irtcEngine3 = reinterpret_cast<IRtcEngine3 *>(irtcEngine);
-            int a = irtcEngine3->setAppType(APP_TYPE_UNITY);
+            int a = irtcEngine3->setAppType(APP_TYPE_C_SHARP);
         }
 
         CWrapperRtcEngineEventHandler *CAgoraSDKObject::getCWrapperRtcEngineEventHandler()

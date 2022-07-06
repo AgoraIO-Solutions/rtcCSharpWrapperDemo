@@ -701,7 +701,7 @@ namespace agora {
             engineEvent->onLocalVideoStateChanged(localVideoState, error);
         }
 
-        void CWrapperRtcEngineEventHandler::onRtmpStreamingStateChanged(const char *url, RTMP_STREAM_PUBLISH_STATE state, RTMP_STREAM_PUBLISH_ERROR errCode)
+        void CWrapperRtcEngineEventHandler::onRtmpStreamingStateChanged(const char *url, RTMP_STREAM_PUBLISH_STATE state, RTMP_STREAM_PUBLISH_ERROR_TYPE errCode)
         {
             if (engineEvent->onRtmpStreamingStateChanged == NULL)
                 return;
