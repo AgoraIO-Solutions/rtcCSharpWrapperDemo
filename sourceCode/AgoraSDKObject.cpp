@@ -157,9 +157,11 @@ namespace agora {
 
         int CAgoraSDKObject::joinChannel(const char *channelKey, const char *channelName, const char *info, uid_t uid)
         {
-            if (irtcEngine)  
-                return irtcEngine->joinChannel(channelKey, channelName, info, uid);
-
+			if (irtcEngine) {
+				AParameter apm(*irtcEngine);
+				apm->setParameters("{\"che.video.videoFullrange\" : 0}");
+				return irtcEngine->joinChannel(channelKey, channelName, info, uid);
+			}
             return NOT_INIT_ENGINE;
         }
 
