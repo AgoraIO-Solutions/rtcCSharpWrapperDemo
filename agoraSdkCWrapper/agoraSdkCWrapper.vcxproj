@@ -60,8 +60,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\agora-adc\Documents\Visual Studio 2013\Projects\unity_win_sdk\UNITY_2\unity_sdk\unity_sdk\native_sdk\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\agora-adc\Documents\Visual Studio 2013\Projects\unity_win_sdk\UNITY_2\unity_sdk\unity_sdk\Projects\Windows\sdk\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
     <OutDir>..\ConsoleApp1\bin\Debug</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -72,7 +72,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>..\native_sdk\include;$(IncludePath)</IncludePath>
     <LibraryPath>..\native_sdk\lib;$(LibraryPath)</LibraryPath>
-    <OutDir>..\rtcCSharpWrapperDemo\bin\x64\Debug</OutDir>
+    <OutDir>..\rtcCSharpWrapperDemo\bin\x64\Release</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>..\native_sdk\include;$(IncludePath)</IncludePath>
@@ -129,6 +129,9 @@
     <Link>
       <AdditionalDependencies>agora_rtc_sdk.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>if exist  ..\native_sdk\x86_64\agora_rtc_sdk.dll (copy ..\native_sdk\x86_64\*.dll ..\rtcCSharpWrapperDemo\bin\x64\Debug)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

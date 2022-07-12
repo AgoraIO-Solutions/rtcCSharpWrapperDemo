@@ -147,7 +147,7 @@ namespace agora {
         void CAgoraSDKObject::setAppType()
         {
             IRtcEngine3 *irtcEngine3 = reinterpret_cast<IRtcEngine3 *>(irtcEngine);
-            int a = irtcEngine3->setAppType(APP_TYPE_UNITY);
+            int a = irtcEngine3->setAppType(APP_TYPE_C_SHARP);
         }
 
         CWrapperRtcEngineEventHandler *CAgoraSDKObject::getCWrapperRtcEngineEventHandler()
@@ -157,9 +157,11 @@ namespace agora {
 
         int CAgoraSDKObject::joinChannel(const char *channelKey, const char *channelName, const char *info, uid_t uid)
         {
-            if (irtcEngine)  
-                return irtcEngine->joinChannel(channelKey, channelName, info, uid);
-
+			if (irtcEngine) {
+				AParameter apm(*irtcEngine);
+				apm->setParameters("{\"che.video.videoFullrange\" : 0}");
+				return irtcEngine->joinChannel(channelKey, channelName, info, uid);
+			}
             return NOT_INIT_ENGINE;
         }
 
