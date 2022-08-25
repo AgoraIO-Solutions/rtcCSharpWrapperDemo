@@ -183,7 +183,8 @@ namespace rtcCSharpWrapperDemo
             re_.SetParameters("{\"che.audio.specify.codec\":\"AACLC_2ch\"}");
             re_.SetupLocalVideo(localVideo, 0, new IntPtr());
             _videoDeviceManager.SetVideoDevice(getDeviceId());
-            re_.JoinChannel(channel_name, "", 0);
+            //re_.JoinChannel(channel_name, "", 0);
+            re_.JoinChannelOption(channel_name, null, "", 0);
             BaseInfo info = new BaseInfo()
             {
                 channelName = channel_name,

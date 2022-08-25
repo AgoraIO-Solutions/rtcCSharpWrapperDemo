@@ -165,6 +165,26 @@ namespace agora {
             return NOT_INIT_ENGINE;
         }
 
+		int CAgoraSDKObject::joinChannelOption(const char *channelName, const char* token,
+			const char* info,
+			uid_t uid,
+			bool autoSubscribeAudio,
+			bool autoSubscribeVideo,
+			bool publishLocalAudio,
+			bool publishLocalVideo) {
+			if (irtcEngine) {
+				AParameter apm(*irtcEngine);
+				apm->setParameters("{\"che.video.videoFullrange\" : 0}");
+				ChannelMediaOptions options;
+				options.autoSubscribeAudio = autoSubscribeAudio;
+				options.autoSubscribeVideo = autoSubscribeVideo;
+				options.publishLocalAudio = publishLocalAudio;
+				options.publishLocalVideo = publishLocalVideo;
+				return irtcEngine->joinChannel(token, channelName, info, uid, options);
+			}
+			return NOT_INIT_ENGINE;
+		}
+
         int CAgoraSDKObject::leaveChannel()
         {
             if (irtcEngine)
@@ -2048,6 +2068,19 @@ namespace agora {
 
             return NOT_INIT_ENGINE;
         }
+
+		int CAgoraSDKObject::joinChannelWithUserAccount(const char* token, const char* channelId, const char* userAccount, bool autoSubscribeAudio, bool autoSubscribeVideo, bool publishLocalAudio, bool publishLocalVideo)
+		{
+			if (irtcEngine) {
+				ChannelMediaOptions options;
+				options.autoSubscribeAudio = autoSubscribeAudio;
+				options.autoSubscribeVideo = autoSubscribeVideo;
+				options.publishLocalAudio = publishLocalAudio;
+				options.publishLocalVideo = publishLocalVideo;
+				return irtcEngine->joinChannelWithUserAccount(token, channelId, userAccount, options);
+			}
+			return NOT_INIT_ENGINE;
+		}
         
         int CAgoraSDKObject::getUserInfoByUserAccount(const char *userAccount, UserInfo *userInfo)
         {

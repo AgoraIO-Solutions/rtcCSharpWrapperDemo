@@ -300,6 +300,16 @@ namespace agora {
                 return CAgoraSDKObject::getCAgoraSDKInstance()->joinChannel(channelKey, channelName, info, uid);
             }
 
+			int joinChannelOption(const char *channelName, const char* token,
+				const char* info,
+				uid_t uid,
+				bool autoSubscribeAudio,
+				bool autoSubscribeVideo,
+				bool publishLocalAudio,
+				bool publishLocalVideo) {
+				return CAgoraSDKObject::getCAgoraSDKInstance()->joinChannelOption(channelName, token, info, uid, autoSubscribeAudio, autoSubscribeVideo, publishLocalAudio, publishLocalVideo);
+			}
+
             int renewToken(const char *token)
             {
                 return CAgoraSDKObject::getCAgoraSDKInstance()->renewToken(token);
@@ -1191,6 +1201,11 @@ namespace agora {
             {
                 return CAgoraSDKObject::getCAgoraSDKInstance()->joinChannelWithUserAccount(token, channelId, userAccount);
             }
+
+			int joinChannelWithUserAccountOption(const char* token, const char* channelId, const char* userAccount, bool autoSubscribeAudio, bool autoSubscribeVideo, bool publishLocalAudio, bool publishLocalVideo)
+			{
+				return CAgoraSDKObject::getCAgoraSDKInstance()->joinChannelWithUserAccount(token, channelId, userAccount, autoSubscribeAudio, autoSubscribeVideo, publishLocalAudio, publishLocalVideo);
+			}
         
             int getUserInfoByUserAccount(const char *userAccount)
             {

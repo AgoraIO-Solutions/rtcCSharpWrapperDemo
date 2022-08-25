@@ -391,6 +391,11 @@ namespace agora_gaming_rtc
             return IRtcEngineNative.joinChannel(channelKey, channelName, info, uid);
         }
 
+        public int JoinChannelOption(string channelName, string token, string info = "", uint uid = 0, bool autoSubscribeAudio = false, bool autoSubscribeVideo = false, bool publishLocalAudio = true, bool publishLocalVideo = true)
+        {
+            return IRtcEngineNative.joinChannelOption(channelName, token, info, uid, autoSubscribeAudio, autoSubscribeVideo, publishLocalAudio, publishLocalVideo);
+        }
+
         /** Gets a new token when the current token expires after a period of time.
          * 
          * The `token` expires after a period of time once the token schema is enabled when:
@@ -2371,7 +2376,11 @@ namespace agora_gaming_rtc
         {
             return IRtcEngineNative.joinChannelWithUserAccount(token, channelId, userAccount);
         }
-
+        public int joinChannelWithUserAccountOption(string token, string channelId, string userAccount, bool autoSubscribeAudio = false, bool autoSubscribeVideo = false, bool publishLocalAudio = true, bool publishLocalVideo = true)
+        {
+            return IRtcEngineNative.joinChannelWithUserAccountOption(token, channelId, userAccount,autoSubscribeAudio, autoSubscribeVideo, publishLocalAudio, publishLocalVideo);
+        }
+       
         /** Gets the user information by passing in the user account.
          * 
          * After a remote user joins the channel, the SDK gets the user ID and user account of the remote user, caches them in a mapping table object (`userInfo`), and triggers the {@link agora_gaming_rtc.OnUserInfoUpdatedHandler OnUserInfoUpdatedHandler} callback on the local client.

@@ -51,6 +51,7 @@ namespace agora
       virtual void deleteEngine();
       virtual const char *getSdkVersion();
       virtual int joinChannel(const char *channelKey, const char *channelName, const char *info, uid_t uid);
+	  virtual int joinChannelOption(const char *channelName, const char* token,const char* info, uid_t uid, bool autoSubscribeAudio, bool autoSubscribeVideo, bool publishLocalAudio, bool publishLocalVideo);
       virtual int renewToken(const char *token);
       virtual int leaveChannel();
       virtual int enableLastmileTest();
@@ -235,6 +236,7 @@ namespace agora
       virtual int setLogFileSize(unsigned int fileSizeInKBytes);
       virtual int setExternalAudioSink(bool enabled, int sampleRate, int channels);
       virtual int joinChannelWithUserAccount(const char *token, const char *channelId, const char *userAccount);
+	  virtual int joinChannelWithUserAccount(const char* token, const char* channelId, const char* userAccount, bool autoSubscribeAudio, bool autoSubscribeVideo, bool publishLocalAudio, bool publishLocalVideo);
       virtual int getUserInfoByUserAccount(const char *userAccount, UserInfo *userInfo);
       virtual int getUserInfoByUid(uid_t uid, UserInfo *userInfo);
       virtual int registerLocalUserAccount(const char *appId, const char *userAccount);

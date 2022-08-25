@@ -13,6 +13,7 @@ namespace agora {
         AGORA_API bool deleteEngine();
         AGORA_API const char *getSdkVersion();
         AGORA_API int joinChannel(const char *channelKey, const char *channelName, const char *info, unsigned int uid);
+		AGORA_API int joinChannelOption(const char *channelName, const char* token, const char* info, uid_t uid, bool autoSubscribeAudio, bool autoSubscribeVideo,bool publishLocalAudio,bool publishLocalVideo);
         AGORA_API int renewToken(const char *token);
         AGORA_API int leaveChannel();
         AGORA_API int enableLastmileTest();
@@ -140,6 +141,7 @@ namespace agora {
         AGORA_API int clearVideoWatermarks();
         AGORA_API int registerLocalUserAccount(const char* appId, const char* userAccount);
         AGORA_API int joinChannelWithUserAccount(const char* token, const char* channelId, const char* userAccount);
+		AGORA_API int joinChannelWithUserAccountOption(const char* token, const char* channelId, const char* userAccount, bool autoSubscribeAudio, bool autoSubscribeVideo, bool publishLocalAudio, bool publishLocalVideo);
         AGORA_API int getUserInfoByUserAccount(const char *userAccount);
         AGORA_API char* getUserInfoByUid(uid_t uid);
         AGORA_API int setBeautyEffectOptions(bool enabled, int lighteningContrastLevel, float lighteningLevel, float smoothnessLevel, float rednessLevel);

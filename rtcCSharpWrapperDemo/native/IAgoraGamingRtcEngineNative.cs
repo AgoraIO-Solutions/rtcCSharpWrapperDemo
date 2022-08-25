@@ -123,6 +123,9 @@ namespace agora_gaming_rtc
         protected static extern int joinChannel(string channelKey, string channelName, string info, uint uid);
 
         [DllImport(MyLibName, CharSet = CharSet.Ansi)]
+        protected static extern int joinChannelOption(string channelName, string token, string info, uint uid, bool autoSubscribeAudio, bool autoSubscribeVideo, bool publishLocalAudio, bool publishLocalVideo);
+
+        [DllImport(MyLibName, CharSet = CharSet.Ansi)]
         protected static extern int setLocalVoicePitch(double pitch);
 
         [DllImport(MyLibName, CharSet = CharSet.Ansi)]
@@ -640,6 +643,9 @@ namespace agora_gaming_rtc
 
         [DllImport(MyLibName, CharSet = CharSet.Ansi)]
         protected static extern int joinChannelWithUserAccount(string token, string channelId, string userAccount);
+
+        [DllImport(MyLibName, CharSet = CharSet.Ansi)]
+        protected static extern int joinChannelWithUserAccountOption(string token, string channelId, string userAccount, bool autoSubscribeAudio, bool autoSubscribeVideo, bool publishLocalAudio, bool publishLocalVideo);
 
         [DllImport(MyLibName, CharSet = CharSet.Ansi)]
         protected static extern int getUserInfoByUserAccount(string userAccount);
