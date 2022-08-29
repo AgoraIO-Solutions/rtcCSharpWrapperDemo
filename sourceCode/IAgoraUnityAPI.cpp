@@ -821,6 +821,11 @@ namespace agora {
                 return CAgoraSDKObject::getCAgoraSDKInstance()->pushAudioFrame(mediaSourceType, audioFrameType, samples, bytesPerSample, channels, samplesPerSec, buffer, renderTimeMs, avsync_type, wrap);
             }
 
+            int setExternalAudioSourceVolume(int32_t sourcePos, int32_t volume)
+            {
+                return CAgoraSDKObject::getCAgoraSDKInstance()->setExternalAudioSourceVolume(sourcePos, volume);
+            }
+
             int generateNativeTexture()
             {
                 return CAgoraSDKObject::getCAgoraSDKInstance()->generateNativeTexture();

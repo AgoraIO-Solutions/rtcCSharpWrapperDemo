@@ -2091,6 +2091,11 @@ namespace agora_gaming_rtc
             return IRtcEngineNative.pushAudioFrame_((int)audioFrame.type, audioFrame.samples, audioFrame.bytesPerSample, audioFrame.channels, audioFrame.samplesPerSec, audioFrame.buffer, audioFrame.renderTimeMs, audioFrame.avsync_type);
         }
 
+        public int SetExternalAudioSourceVolume(int sourcePos, int volume)
+        {
+            return IRtcEngineNative.setExternalAudioSourceVolume(sourcePos, volume);
+        }
+
         /** Retrieves the audio mixing volume for local playback.
          * 
          * This method helps troubleshoot audio volume related issues.

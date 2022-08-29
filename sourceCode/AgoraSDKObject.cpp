@@ -1728,6 +1728,24 @@ namespace agora {
             return NOT_INIT_ENGINE;
         }
 
+        int CAgoraSDKObject::setExternalAudioSourceVolume(int32_t sourcePos, int32_t volume)
+        {
+            if (irtcEngine)
+            {
+                agora::util::AutoPtr<agora::media::IMediaEngine> mediaEngine;
+                mediaEngine.queryInterface(irtcEngine, agora::AGORA_IID_MEDIA_ENGINE);
+                if (mediaEngine)
+                { 
+                    return mediaEngine->setExternalAudioSourceVolume(sourcePos, volume);
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+            return NOT_INIT_ENGINE;
+        }
+
         void CAgoraSDKObject::setVideoRender(VideoRender *_render)
         {
             _videoRender = _render;

@@ -109,6 +109,7 @@ namespace agora {
         AGORA_API int setExternalAudioSource(bool enabled, int sampleRate, int channels);
         AGORA_API int pushAudioFrame_(int audioFrameType, int samples, int bytesPerSample, int channels, int samplesPerSec, void* buffer, int64_t renderTimeMs, int avsync_type);
         AGORA_API int pushAudioFrame2_(int mediaSourceType, int audioFrameType, int samples, int bytesPerSample, int channels, int samplesPerSec, void *buffer, int64_t renderTimeMs, int avsync_type, bool wrap);
+        AGORA_API int setExternalAudioSourceVolume(int32_t sourcePos, int32_t volume);
         AGORA_API int getConnectionState();
         AGORA_API int setAudioProfile(int audioProfile, int scenario);
         AGORA_API int setVideoEncoderConfiguration(int width, int height, int frameRate, int minFrameRate, int bitrate, int minBitrate, int orientationMode, int degradationPreference, int videoMirrorMode);

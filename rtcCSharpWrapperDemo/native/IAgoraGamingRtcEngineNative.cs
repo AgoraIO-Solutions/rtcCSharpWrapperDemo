@@ -566,6 +566,8 @@ namespace agora_gaming_rtc
         [DllImport(MyLibName, CharSet = CharSet.Ansi)]
         protected static extern int pushAudioFrame_(int audioFrameType, int samples, int bytesPerSample, int channels, int samplesPerSec, byte[] buffer, long renderTimeMs, int avsync_type);
 
+        [DllImport(MyLibName, CharSet = CharSet.Ansi)]
+        protected static extern int setExternalAudioSourceVolume(int sourcePos, int volume);
         // [DllImport(MyLibName, CharSet = CharSet.Ansi)]
         // protected static extern int pushAudioFrame2_(int mediaSourceType, int audioFrameType, int samples, int bytesPerSample, int channels, int samplesPerSec, byte[] buffer, long renderTimeMs, int avsync_type, bool wrap);
 

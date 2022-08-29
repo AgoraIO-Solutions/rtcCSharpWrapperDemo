@@ -160,6 +160,7 @@ namespace agora
       virtual int setExternalAudioSource(bool enabled, int sampleRate, int channels);
       virtual int pushAudioFrame(int mediaSourceType, int audioFrameType, int samples, int bytesPerSample, int channels, int samplesPerSec, void *buffer, int64_t renderTimeMs, int avsync_type, bool wrap);
       virtual int pushAudioFrame(int audioFrameType, int samples, int bytesPerSample, int channels, int samplesPerSec, void *buffer, int64_t renderTimeMs, int avsync_type);
+      virtual int setExternalAudioSourceVolume(int32_t sourcePos, int32_t volume);
       // video device manager
       virtual bool createAVideoDeviceManager();
       virtual int releaseAVideoDeviceManager();
