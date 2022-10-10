@@ -1616,8 +1616,13 @@ namespace agora_gaming_rtc
     */
     public enum MEDIA_DEVICE_STATE_TYPE
     {
-    /** 1: The device is active.
-    */
+        /** 0: The device is ready for use.
+         *
+         * @since v3.4.5
+        */
+        MEDIA_DEVICE_STATE_IDLE = 0,
+        /** 1: The device is active.
+        */
         MEDIA_DEVICE_STATE_ACTIVE = 1,
         /** 2: The device is disabled.
         */
@@ -1628,6 +1633,9 @@ namespace agora_gaming_rtc
         /** 8: The device is unplugged.
         */
         MEDIA_DEVICE_STATE_UNPLUGGED = 8
+        /** 16: The device is not recommended.
+        */
+        MEDIA_DEVICE_STATE_UNRECOMMENDED = 16,
     };
 
     /** States of importing an external video stream in a live broadcast. */
