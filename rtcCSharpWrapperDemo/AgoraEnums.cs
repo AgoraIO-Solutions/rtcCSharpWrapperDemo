@@ -1632,7 +1632,7 @@ namespace agora_gaming_rtc
         MEDIA_DEVICE_STATE_NOT_PRESENT = 4,
         /** 8: The device is unplugged.
         */
-        MEDIA_DEVICE_STATE_UNPLUGGED = 8
+        MEDIA_DEVICE_STATE_UNPLUGGED = 8,
         /** 16: The device is not recommended.
         */
         MEDIA_DEVICE_STATE_UNRECOMMENDED = 16,
